@@ -18,31 +18,35 @@ function Header({ onMenu }) {
             }
             to="/products"
           >
-            Sunglasses
+            Shop
           </NavLink>
           <NavLink
             className={({ isActive }) =>
               isActive ? "text-blue-400 font-bold " : "text-gray-600"
             }
-            to="/cart"
+            to="/wishlist"
           >
-            Cart
+            Wishlist
           </NavLink>
         </nav>
         <div className="hidden  md:flex gap-10 ">
-          <Link to={"/cart"}>
+          <Link to={"/cart"} className="cursor-pointer flex">
             <CiShoppingCart size={24} />
+            Cart
           </Link>
-          <Link>
+          <Link to={"/profile"} className="cursor-pointer flex">
             <CgProfile size={24} />
+            Profile
           </Link>
         </div>
         <div className="md:hidden flex gap-10">
-          <Link to={"/cart"} className="cursor-pointer">
+          <Link to={"/cart"} className="cursor-pointer flex ">
             <CiShoppingCart size={24} />
+            Cart
           </Link>
-          <Link to={"/profile"} className="cursor-pointer">
+          <Link to={"/profile"} className="cursor-pointer flex ">
             <CgProfile size={24} />
+            Profile
           </Link>
           <button onClick={onMenu} className="cursor-pointer">
             <FiMenu size={24} />
