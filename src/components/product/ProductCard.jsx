@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import { Heart, ShoppingCart, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { toogleWishlist } from "../../store/wishlistSlice";
+import { addToCart } from "../../store/cartSlice";
 
 const ProductCard = ({ product }) => {
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const dispatch = useDispatch();
+  const wishlist = useSelector((state) => state.wishlist.items);
+  const isWishlisted = wishlist.some((i) => i.id === product.id);
   const navigate = useNavigate();
 
   const { id, name, price, description, images, colors, tryOnAvailable } =
@@ -18,7 +23,7 @@ const ProductCard = ({ product }) => {
         </span>
 
         <Button
-          onClick={() => setIsWishlisted((p) => !p)}
+          onClick={() => dispatch(toogleWishlist(product))}
           className=" cursor-pointer rounded-full p-2 transition-colors bg-white hover:bg-gray-100"
         >
           <Heart
@@ -69,7 +74,10 @@ const ProductCard = ({ product }) => {
         </div>
       </div>
 
-      <Button className=" cursor-pointer mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 py-3 font-semibold text-white transition-all hover:bg-slate-800 active:scale-95">
+      <Button
+        onClick={() => dispatch(addToCart(product))}
+        className=" cursor-pointer mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 py-3 font-semibold text-white transition-all hover:bg-slate-800 active:scale-95"
+      >
         <ShoppingCart size={18} />
         Add to Cart
       </Button>

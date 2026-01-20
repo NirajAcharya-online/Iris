@@ -2,8 +2,10 @@ import { Link, NavLink } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
 import { CiShoppingCart } from "react-icons/ci";
 import { CgProfile } from "react-icons/cg";
+import { useSelector } from "react-redux";
 
 function Header({ onMenu }) {
+  const cartItems = useSelector((state) => state.cart.items);
   return (
     <header className="w-full border-b bg-white sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between  ">
@@ -32,7 +34,7 @@ function Header({ onMenu }) {
         <div className="hidden  md:flex gap-10 ">
           <Link to={"/cart"} className="cursor-pointer flex">
             <CiShoppingCart size={24} />
-            Cart
+            {cartItems.length} Cart
           </Link>
           <Link to={"/profile"} className="cursor-pointer flex">
             <CgProfile size={24} />
@@ -43,6 +45,7 @@ function Header({ onMenu }) {
           <Link to={"/cart"} className="cursor-pointer flex ">
             <CiShoppingCart size={24} />
             Cart
+            {cartItems.length}
           </Link>
           <Link to={"/profile"} className="cursor-pointer flex ">
             <CgProfile size={24} />

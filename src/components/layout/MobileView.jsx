@@ -20,8 +20,8 @@ function MobileMenu({ open, onClose }) {
           <Link to="/products" onClick={onClose}>
             Shop
           </Link>
-          <Link to="/cart" onClick={onClose}>
-            Cart
+          <Link to="/wishlist" onClick={onClose}>
+            Wishlist
           </Link>
         </nav>
       </div>
