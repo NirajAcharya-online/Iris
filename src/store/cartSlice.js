@@ -19,12 +19,11 @@ const cartSlice = createSlice({
       if (exist.qty > 1) {
         exist.qty -= 1;
       } else if (exist.qty === 1) {
-        state.items === state.items.filter((i) => i.id !== action.payload.id);
+        state.items = state.items.filter((i) => i.id !== action.payload.id);
       }
     },
     clearItem(state, action) {
-      state.items === state.items.filter((i) => i.id !== action.payload.id);
-      console.log(state.items.id);
+      state.items = state.items.filter((i) => i.id !== action.payload.id);
     },
   },
 });
