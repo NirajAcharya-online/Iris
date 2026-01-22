@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import useDebounce from "../../hook/Debounce";
 
-function SearchBar() {
+function SearchBar({ setSearchItem }) {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 2000);
 
-  useEffect(() => {}, [debouncedSearchTerm]);
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      setSearchItem(debouncedSearchTerm);
+    }
+  }, [debouncedSearchTerm]);
 
   return (
-    <div className="pb-10 flex justify-center">
+    <div className=" flex justify-center pb-5 ">
       <input
         type="text"
-        placeholder="Want frames or Sunglasses..?"
+        placeholder="Want Frames or Sunglasses..?"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="
