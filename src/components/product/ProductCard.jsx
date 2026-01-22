@@ -64,7 +64,7 @@ const ProductCard = ({ product }) => {
         </p>
 
         <div className="flex items-center justify-between pt-2">
-          <span className="text-2xl font-black text-gray-900">₹{price}</span>
+          <span className="text-2xl font-black text-gray-900">${price}</span>
 
           <div className="flex gap-1">
             {colors?.map((c) => (
