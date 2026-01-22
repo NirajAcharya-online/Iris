@@ -2,11 +2,18 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../components/ui/Button";
 import ShippingSelector from "../components/ui/ShippingSelector";
-import { addToCart, clearItem, removeFromCart } from "../store/cartSlice";
+import {
+  addToCart,
+  clearItem,
+  removeFromCart,
+  updateTotal,
+} from "../store/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
+  const naviagte = useNavigate();
   const [shippingPrice, setShippingPrice] = React.useState(6.95);
 
   if (cartItems.length === 0) {
@@ -114,9 +121,23 @@ function Cart() {
               </div>
             </div>
 
-            <button className="w-full mt-6 bg-black text-white py-3 rounded-lg hover:opacity-90">
+            <Button
+              onClick={() => {
+                dispatch(
+                  updateTotal({
+                    subTotal,
+                    totalPrice,
+                    taxAmount,
+                    shippingPrice,
+                  }),
+                );
+                naviagte("/checkout");
+              }}
+              variant={"secondary"}
+              className=" w-full mt-6 cursor-pointer"
+            >
               Checkout
-            </button>
+            </Button>
           </div>
         </div>
       </div>

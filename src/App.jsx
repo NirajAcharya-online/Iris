@@ -8,18 +8,25 @@ import Checkout from "./pages/Checkout";
 import TryOn from "./pages/TryOn";
 import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
+import ProtectedCheckout from "./features/Protector/ProtecCheckout";
 
 function App() {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-      
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Shop />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/checkout" element={<Checkout />} />
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedCheckout>
+              <Checkout />
+            </ProtectedCheckout>
+          }
+        />
         <Route path="/product/:id/tryon" element={<TryOn />} />
         <Route path="/cart" element={<Cart />} />
       </Route>
