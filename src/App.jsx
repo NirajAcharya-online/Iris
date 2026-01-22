@@ -13,6 +13,7 @@ function App() {
   return (
     <Routes>
       <Route element={<MainLayout />}>
+      
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Shop />} />
         <Route path="/wishlist" element={<Wishlist />} />

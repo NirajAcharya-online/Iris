@@ -4,6 +4,7 @@ import ProductCard from "../components/product/ProductCard";
 import FilterPanel from "../components/ui/FilterPanel";
 import Button from "../components/ui/Button";
 import { useSearchParams } from "react-router-dom";
+import SearchBar from "../components/ui/SearchBar";
 
 function Shop() {
   const [openFilter, setOpenFilter] = useState(false);
@@ -26,6 +27,9 @@ function Shop() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="flex justify-center">
+          <SearchBar />
+        </div>
         <div className="flex items-center justify-between mb-4 md:hidden">
           <h1 className="text-lg font-bold">Shop</h1>
 

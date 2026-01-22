@@ -3,3 +3,23 @@
 @theme {
   --font-inter: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6366f1;
+}
+
+html {
+  scroll-behavior: smooth;
+}

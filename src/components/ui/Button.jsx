@@ -13,6 +13,7 @@ const Button = ({
     "inline-flex items-center justify-center font-medium transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:pointer-events-none";
 
   const variants = {
+    none: "",
     primary: "bg-slate-900 text-white hover:bg-slate-800 shadow-sm",
     secondary: "bg-blue-600 text-white hover:bg-blue-700 shadow-sm",
     outline:
