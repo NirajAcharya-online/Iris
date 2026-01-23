@@ -1,13 +1,14 @@
 import { useForm } from "react-hook-form";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState } from "react";
+import { IoClose } from "react-icons/io5"; 
 import Button from "../ui/Button";
 import { createAccount } from "../../firebase/firebaseAuth";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9_]{2,15}$/;
-function Signup() {
+
+function Signup({ onClose, onSwitchToLogin }) {
   const {
     register,
     handleSubmit,
@@ -18,16 +19,25 @@ function Signup() {
   const onSubmit = async (data) => {
     setAuthError("");
     try {
-      const respose = createAccount(data);
+      const response = await createAccount(data);
     } catch (error) {
-      setAuthError(error);
+      setAuthError(error.message || "An error occurred during signup.");
     }
   };
 
   return (
-    <div className="max-h-full flex items-center justify-center bg-white p-6">
-      <div className="w-full max-w-sm h-[650px] bg-white rounded-3xl border border-gray-100 shadow-xl p-8 flex flex-col justify-center">
-        <div className="text-center mb-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
+      <div className="absolute inset-0" onClick={onClose} />
+
+      <div className="relative w-full max-w-sm bg-white rounded-[2rem] shadow-2xl border border-white/20 p-8 flex flex-col animate-in fade-in zoom-in duration-300">
+        <button
+          onClick={onClose}
+          className="absolute top-6 right-6 text-gray-400 hover:text-slate-900 transition-colors p-1"
+        >
+          <IoClose size={24} />
+        </button>
+
+        <div className="text-center mb-6">
           <h2 className="text-3xl font-black text-slate-900 tracking-tight">
             Create Account
           </h2>
@@ -37,35 +47,34 @@ function Signup() {
         </div>
 
         {authError && (
-          <div className="flex justify-center mb-6">
-            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-full text-xs font-semibold">
+          <div className="flex justify-center mb-4">
+            <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider text-center">
               {authError}
             </div>
           </div>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="relative">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+          <div className="space-y-1">
             <input
               {...register("username", {
                 required: "Username is required",
                 pattern: {
                   value: USERNAME_REGEX,
-                  message:
-                    "3-16 chars, must start with a letter, no special chars except '_'",
+                  message: "3-16 chars, start with letter, no special chars",
                 },
               })}
-              className="w-full bg-gray-50 border border-gray-100 rounded-xl px-5 py-4 text-slate-900 placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none"
+              className="w-full bg-gray-50 border border-gray-100 rounded-xl px-5 py-3.5 text-slate-900 placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none"
               placeholder="Username"
             />
             {errors.username && (
-              <p className="text-center text-red-500 text-xs mt-1 font-medium px-4">
+              <p className="text-center text-red-500 text-[10px] font-medium leading-tight">
                 {errors.username.message}
               </p>
             )}
           </div>
 
-          <div className="relative">
+          <div className="space-y-1">
             <input
               {...register("email", {
                 required: "Email is required",
@@ -74,32 +83,31 @@ function Signup() {
                   message: "Invalid email address",
                 },
               })}
-              className="w-full bg-gray-50 border border-gray-100 rounded-xl px-5 py-4 text-slate-900 placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none"
+              className="w-full bg-gray-50 border border-gray-100 rounded-xl px-5 py-3.5 text-slate-900 placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none"
               placeholder="Email Address"
             />
             {errors.email && (
-              <p className="text-center text-red-500 text-xs mt-1 font-medium">
+              <p className="text-center text-red-500 text-[10px] font-medium leading-tight">
                 {errors.email.message}
               </p>
             )}
           </div>
 
-          <div className="relative">
+          <div className="space-y-1">
             <input
               type="password"
               {...register("password", {
                 required: "Password is required",
                 pattern: {
                   value: PWD_REGEX,
-                  message:
-                    "Must include: Uppercase, Lowercase, Number, & Special Char",
+                  message: "Need: Upper, Lower, Num, & Special Char",
                 },
               })}
-              className="w-full bg-gray-50 border border-gray-100 rounded-xl px-5 py-4 text-slate-900 placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none"
+              className="w-full bg-gray-50 border border-gray-100 rounded-xl px-5 py-3.5 text-slate-900 placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all outline-none"
               placeholder="Password"
             />
             {errors.password && (
-              <p className="text-center text-red-500 text-xs mt-1 font-medium leading-relaxed px-4">
+              <p className="text-center text-red-500 text-[10px] font-medium leading-tight px-4">
                 {errors.password.message}
               </p>
             )}
@@ -111,12 +119,23 @@ function Signup() {
             disabled={isSubmitting}
             className="w-full py-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold shadow-lg transition-all active:scale-[0.98] disabled:opacity-50 mt-4"
           >
-            {isSubmitting ? "Creating..." : "GET STARTED"}
+            {isSubmitting ? "CREATING..." : "GET STARTED"}
           </Button>
         </form>
 
-        <p className="text-center text-gray-400 text-xs mt-8">
-          By signing up, you agree to our Terms.
+        <p className="text-center text-slate-600 text-sm mt-6">
+          Already have an account?{" "}
+          <button
+            type="button"
+            onClick={onSwitchToLogin}
+            className="text-blue-600 font-bold hover:underline underline-offset-4"
+          >
+            Login
+          </button>
+        </p>
+
+        <p className="text-center text-gray-400 text-[10px] mt-6 uppercase tracking-widest font-semibold">
+          Secure Registration
         </p>
       </div>
     </div>
