@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import Button from "../ui/Button";
+import { MdArrowForwardIos } from "react-icons/md";
 
-function MobileMenu({ open, onClose }) {
+function MobileMenu({ open, onClose, user }) {
   if (!open) return null;
 
   return (
@@ -23,6 +25,23 @@ function MobileMenu({ open, onClose }) {
           <Link to="/wishlist" onClick={onClose}>
             Wishlist
           </Link>
+          {user ? (
+            <Button
+              variant="danger"
+              size="md"
+              className="bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-medium py-1 px-3 rounded-lg shadow-lg transition-all duration-200 ease-in-out flex gap-1"
+            >
+              Logout
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              size="md"
+              className="bg-indigo-600 hover:bg-indigo-700 active:scale-95  font-medium py-1 px-3 rounded-lg shadow-lg transition-all duration-200 ease-in-out flex gap-1"
+            >
+              Login <MdArrowForwardIos size={12} />
+            </Button>
+          )}
         </nav>
       </div>
     </div>
