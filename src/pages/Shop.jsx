@@ -75,7 +75,7 @@ function Shop() {
 
   return (
     <div className="min-h-full bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className="max-w-8xl mx-auto px-4 py-6">
         <div className="flex justify-center">
           <SearchBar setSearchItem={setSearchItem} />
         </div>

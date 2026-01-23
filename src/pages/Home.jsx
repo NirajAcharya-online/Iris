@@ -1,7 +1,11 @@
 import React from "react";
 import Button from "../components/ui/Button";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../hook/AuthStatus";
 
 const Home = () => {
+  const navigate = useNavigate();
+  useAuth();
   return (
     <div className="min-h-full bg-[#FDFDFD] py-12 px-4 md:px-10 lg:px-20 font-sans text-slate-900">
       <header className="max-w-5xl mx-auto text-center mb-16 md:mb-24">
@@ -43,6 +47,9 @@ const Home = () => {
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-6">
                 <Button
+                  onClick={() => {
+                    navigate("/products?category=Frames");
+                  }}
                   variant={"none"}
                   className="bg-white text-black px-10 py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all duration-300"
                 >
@@ -76,6 +83,9 @@ const Home = () => {
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-6">
                 <Button
+                  onClick={() => {
+                    navigate("/products?category=Sunglasses");
+                  }}
                   variant={"none"}
                   className="bg-white text-black px-10 py-4 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-indigo-600 hover:text-white transition-all duration-300"
                 >

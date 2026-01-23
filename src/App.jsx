@@ -12,37 +12,43 @@ import ProtectedCheckout from "./features/Protector/ProtectedCheckout";
 import Success from "./pages/Sucess";
 import ProtectedSuccess from "./features/Protector/ProtectSucess";
 import NotFound from "./pages/NotFoundPage";
+import Signup from "./components/authentication/Signup";
+import Login from "./components/authentication/Login";
 
 function App() {
   return (
-    <Routes>
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<Shop />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route
-          path="/checkout"
-          element={
-            <ProtectedCheckout>
-              <Checkout />
-            </ProtectedCheckout>
-          }
-        />
-        <Route
-          path="/success"
-          element={
-            <ProtectedSuccess>
-              <Success />
-            </ProtectedSuccess>
-          }
-        />
-        <Route path="/product/:id/tryon" element={<TryOn />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="*" element={<NotFound />} />
-      </Route>
-    </Routes>
+    <>
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Shop />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedCheckout>
+                <Checkout />
+              </ProtectedCheckout>
+            }
+          />
+          <Route
+            path="/success"
+            element={
+              <ProtectedSuccess>
+                <Success />
+              </ProtectedSuccess>
+            }
+          />
+          <Route path="/product/:id/tryon" element={<TryOn />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 

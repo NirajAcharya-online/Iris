@@ -10,7 +10,7 @@ function MainLayout() {
     <div className="min-h-screen flex flex-col">
       <Header onMenu={() => setOpen(true)} />
       <MobileView open={open} onClose={() => setOpen(false)} />
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 py-6 ">
+      <main className="flex-1 w-full max-w-8xl mx-auto px-4 py-6 ">
         <Outlet />
       </main>
       <Footer />
