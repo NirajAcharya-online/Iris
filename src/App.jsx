@@ -8,7 +8,10 @@ import Checkout from "./pages/Checkout";
 import TryOn from "./pages/TryOn";
 import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
-import ProtectedCheckout from "./features/Protector/ProtecCheckout";
+import ProtectedCheckout from "./features/Protector/ProtectedCheckout";
+import Success from "./pages/Sucess";
+import ProtectedSuccess from "./features/Protector/ProtectSucess";
+import NotFound from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -27,8 +30,17 @@ function App() {
             </ProtectedCheckout>
           }
         />
+        <Route
+          path="/success"
+          element={
+            <ProtectedSuccess>
+              <Success />
+            </ProtectedSuccess>
+          }
+        />
         <Route path="/product/:id/tryon" element={<TryOn />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );

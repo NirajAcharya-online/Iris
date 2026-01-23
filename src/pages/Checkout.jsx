@@ -1,10 +1,14 @@
 import React, { useEffect } from "react";
 import Button from "../components/ui/Button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCart } from "../store/cartSlice";
+import { useNavigate } from "react-router-dom";
 
 function Checkout() {
   const total = useSelector((state) => state.cart.total);
   const cartItems = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     if (!cartItems.length) navigate("/cart");
   }, [cartItems]);
@@ -79,7 +83,13 @@ function Checkout() {
               </div>
             </div>
 
-            <Button variant={"secondary"} className="w-full mt-6">
+            <Button
+              onClick={() => {
+                navigate("/success", { state: { fromCheckout: true } });
+              }}
+              variant={"secondary"}
+              className="w-full mt-6"
+            >
               Place Order
             </Button>
           </div>
