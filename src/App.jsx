@@ -14,10 +14,11 @@ import ProtectedSuccess from "./features/Protector/ProtectSucess";
 import NotFound from "./pages/NotFoundPage";
 import Signup from "./components/authentication/Signup";
 import Login from "./components/authentication/Login";
-
+import useAuth from "./hook/AuthStatus";
 function App() {
   return (
     <>
+      {useAuth()}
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />

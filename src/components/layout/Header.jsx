@@ -2,13 +2,16 @@ import { Link, NavLink } from "react-router-dom";
 import { FiMenu } from "react-icons/fi";
 import { CiShoppingCart } from "react-icons/ci";
 import { CgProfile } from "react-icons/cg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../ui/Button";
 import { MdArrowForwardIos } from "react-icons/md";
+import { toogleLogin } from "../../store/cardShowSlice";
+import Logout from "../authentication/Logout";
 
 function Header({ onMenu }) {
   const user = useSelector((state) => state.user.userDetails);
   const cartItems = useSelector((state) => state.cart.items);
+  const dispatch = useDispatch();
   return (
     <header className="w-full border-b bg-white sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between  ">
@@ -36,15 +39,12 @@ function Header({ onMenu }) {
         </nav>
         <div className="hidden md:flex md:items-center gap-10 ">
           {user ? (
-            <Button
-              variant="danger"
-              size="md"
-              className="bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-medium py-1 px-3 rounded-lg shadow-lg transition-all duration-200 ease-in-out flex gap-1"
-            >
-              Logout
-            </Button>
+            <Logout />
           ) : (
             <Button
+              onClick={() => {
+                dispatch(toogleLogin());
+              }}
               variant="outline"
               size="md"
               className="bg-indigo-600 hover:bg-indigo-700 active:scale-95  font-medium py-1 px-3 rounded-lg shadow-lg transition-all duration-200 ease-in-out flex gap-1"

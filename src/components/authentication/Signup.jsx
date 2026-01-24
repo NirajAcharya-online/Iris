@@ -1,14 +1,17 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { IoClose } from "react-icons/io5"; 
+import { IoClose } from "react-icons/io5";
 import Button from "../ui/Button";
 import { createAccount } from "../../firebase/firebaseAuth";
+import { useDispatch, useSelector } from "react-redux";
+import { toogleLogin, toogleSignup } from "../../store/cardShowSlice";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const USERNAME_REGEX = /^[a-zA-Z][a-zA-Z0-9_]{2,15}$/;
 
-function Signup({ onClose, onSwitchToLogin }) {
+function Signup() {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -18,24 +21,29 @@ function Signup({ onClose, onSwitchToLogin }) {
 
   const onSubmit = async (data) => {
     setAuthError("");
-    try {
-      const response = await createAccount(data);
-    } catch (error) {
-      setAuthError(error.message || "An error occurred during signup.");
+    const result = await createAccount(data);
+    if (result.error) {
+      setAuthError(result.message);
+    } else {
+      dispatch(toogleSignup());
     }
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-      <div className="absolute inset-0" onClick={onClose} />
+      <div className="absolute inset-0" />
 
       <div className="relative w-full max-w-sm bg-white rounded-[2rem] shadow-2xl border border-white/20 p-8 flex flex-col animate-in fade-in zoom-in duration-300">
-        <button
-          onClick={onClose}
+        <Button
+          variant="none"
+          size="none"
+          onClick={() => {
+            dispatch(toogleSignup());
+          }}
           className="absolute top-6 right-6 text-gray-400 hover:text-slate-900 transition-colors p-1"
         >
           <IoClose size={24} />
-        </button>
+        </Button>
 
         <div className="text-center mb-6">
           <h2 className="text-3xl font-black text-slate-900 tracking-tight">
@@ -125,13 +133,18 @@ function Signup({ onClose, onSwitchToLogin }) {
 
         <p className="text-center text-slate-600 text-sm mt-6">
           Already have an account?{" "}
-          <button
+          <Button
+            variant="none"
+            size="none"
             type="button"
-            onClick={onSwitchToLogin}
+            onClick={() => {
+              dispatch(toogleSignup());
+              dispatch(toogleLogin());
+            }}
             className="text-blue-600 font-bold hover:underline underline-offset-4"
           >
             Login
-          </button>
+          </Button>
         </p>
 
         <p className="text-center text-gray-400 text-[10px] mt-6 uppercase tracking-widest font-semibold">

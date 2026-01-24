@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import Button from "../ui/Button";
 import { MdArrowForwardIos } from "react-icons/md";
+import { toogleLogin } from "../../store/cardShowSlice";
+import { useDispatch } from "react-redux";
+import Logout from "../authentication/Logout";
 
 function MobileMenu({ open, onClose, user }) {
   if (!open) return null;
-
+  const dispatch = useDispatch();
   return (
     <div className="fixed inset-0 bg-black/40 z-50">
       <div className="bg-white rounded-xl w-64 h-full p-6 shadow-gray-300 shadow-2xl ">
@@ -26,15 +29,12 @@ function MobileMenu({ open, onClose, user }) {
             Wishlist
           </Link>
           {user ? (
-            <Button
-              variant="danger"
-              size="md"
-              className="bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-medium py-1 px-3 rounded-lg shadow-lg transition-all duration-200 ease-in-out flex gap-1"
-            >
-              Logout
-            </Button>
+            <Logout />
           ) : (
             <Button
+              onClick={() => {
+                dispatch(toogleLogin());
+              }}
               variant="outline"
               size="md"
               className="bg-indigo-600 hover:bg-indigo-700 active:scale-95  font-medium py-1 px-3 rounded-lg shadow-lg transition-all duration-200 ease-in-out flex gap-1"

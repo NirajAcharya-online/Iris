@@ -6,13 +6,21 @@ import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { toogleWishlist } from "../../store/wishlistSlice";
+import { addToSaved } from "../../firebase/firebaseDB";
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.wishlist.items);
   const isWishlisted = wishlist.some((i) => i.id === product.id);
+  const userDetails = useSelector((state) => state.user.userDetails);
   const navigate = useNavigate();
+  const handleWishlist = async () => {
+    const response = await addToSaved(userDetails, product);
+    console.log(response);
 
+    e.stopPropagation();
+    dispatch(toogleWishlist(product));
+  };
   const {
     id,
     name,
@@ -35,8 +43,7 @@ const ProductCard = ({ product }) => {
 
         <Button
           onClick={(e) => {
-            e.stopPropagation();
-            dispatch(toogleWishlist(product));
+            handleWishlist(e);
           }}
           className="rounded-full p-1 bg-white hover:bg-gray-100"
         >

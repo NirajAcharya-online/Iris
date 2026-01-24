@@ -1,11 +1,9 @@
 import React from "react";
 import Button from "../components/ui/Button";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../hook/AuthStatus";
 
 const Home = () => {
   const navigate = useNavigate();
-  useAuth();
   return (
     <div className="min-h-full bg-[#FDFDFD] py-12 px-4 md:px-10 lg:px-20 font-sans text-slate-900">
       <header className="max-w-5xl mx-auto text-center mb-16 md:mb-24">

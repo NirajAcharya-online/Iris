@@ -5,7 +5,7 @@ const cardStatusSlice = createSlice({
   initialState: {
     cardStatus: {
       showLogin: false,
-      showSignup: true,
+      showSignup: false,
     },
   },
   reducers: {

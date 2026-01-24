@@ -3,11 +3,15 @@ import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import Button from "../ui/Button";
 import { loginUser } from "../../firebase/firebaseAuth";
+import { useDispatch } from "react-redux";
+import { toogleLogin, toogleSignup } from "../../store/cardShowSlice";
+import { useNavigate } from "react-router-dom";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
-function Login({ onClose }) {
+function Login() {
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -17,26 +21,29 @@ function Login({ onClose }) {
 
   const onSubmit = async (data) => {
     setAuthError("");
-    try {
-      const response = await loginUser(data);
-      if (response) {
-      }
-    } catch (error) {
-      setAuthError("No account found with these credentials.");
+    const result = await loginUser(data);
+    if (result.error) {
+      setAuthError(result.message);
+    } else {
+      dispatch(toogleSignup());
     }
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
-      <div className="absolute inset-0" onClick={onClose} />
+      <div className="absolute inset-0" />
 
       <div className="relative w-full max-w-sm bg-white rounded-[2rem] shadow-2xl border border-white/20 p-8 flex flex-col animate-in fade-in zoom-in duration-300">
-        <button
-          onClick={onClose}
+        <Button
+          variant="none"
+          size="none"
+          onClick={() => {
+            dispatch(toogleLogin());
+          }}
           className="absolute top-6 right-6 text-gray-400 hover:text-slate-900 transition-colors p-1"
         >
           <IoClose size={24} />
-        </button>
+        </Button>
 
         <div className="text-center mb-8">
           <h2 className="text-3xl font-black text-slate-900 tracking-tight">
@@ -110,7 +117,10 @@ function Login({ onClose }) {
           <Button
             variant="none"
             size="none"
-            onClick={() => {}}
+            onClick={() => {
+              dispatch(toogleLogin());
+              dispatch(toogleSignup());
+            }}
             className="text-blue-600 font-bold hover:underline underline-offset-4"
           >
             Sign up

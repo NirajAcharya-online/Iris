@@ -6,7 +6,6 @@ function Logout() {
   const handleLogout = async () => {
     try {
       const respose = await logout();
-      useAuth();
     } catch (error) {
       console.error("Error logging out:", error.message);
     }

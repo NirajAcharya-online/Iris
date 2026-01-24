@@ -3,15 +3,21 @@ import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart, Sparkles } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../store/cartSlice";
 import Button from "../ui/Button";
+import { addToCartDb } from "../../firebase/firebaseDB";
 
 const ProductDetails = ({ product }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [activeImage, setActiveImage] = useState(0);
-
+  const userDetails = useSelector((state) => state.user.userDetails);
+  const handleAddToCart = async () => {
+    const response = await addToCartDb(userDetails, product);
+    console.log(response);
+    dispatch(addToCart(product));
+  };
   const {
     id,
     name,
@@ -89,7 +95,9 @@ const ProductDetails = ({ product }) => {
 
         <div className="flex gap-4 pt-4">
           <Button
-            onClick={() => dispatch(addToCart(product))}
+            onClick={() => {
+              handleAddToCart();
+            }}
             className="flex-1 bg-black text-white py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-slate-800"
           >
             <ShoppingCart size={18} />
