@@ -1,15 +1,13 @@
 import React from "react";
-import { Heart, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import Button from "../components/ui/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { toogleWishlist } from "../store/wishlistSlice";
 import { useNavigate } from "react-router-dom";
 
 function Wishlist() {
   const savedItems = useSelector((state) => state.wishlist.items);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(savedItems);
   if (savedItems.length === 0) {
     return (
       <div className="min-h-full bg-gray-50 px-4 py-6">

@@ -1,11 +1,14 @@
+import { useDispatch } from "react-redux";
 import Button from "../../components/ui/Button";
 import { logout } from "../../firebase/firebaseAuth";
-import useAuth from "../../hook/AuthStatus";
+import { clearUser } from "../../store/userSlice";
 
 function Logout() {
+  const dispatch = useDispatch();
   const handleLogout = async () => {
     try {
       const respose = await logout();
+      dispatch(clearUser());
     } catch (error) {
       console.error("Error logging out:", error.message);
     }

@@ -1,5 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { database } from "../firebase/firebaseSetup";
+import { collection, doc, getDocs } from "firebase/firestore";
+export const fetchCartItems = createAsyncThunk(
+  "data/cartItems",
+  async (user, thunkApi) => {
+    try {
+      const querySnapshot = await getDocs(
+        collection(database, "users", String(user.uid), "cart"),
+      );
+      const cartData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      return cartData;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  },
+);
 const initialState = {
+  status: "idle",
+  error: null,
   total: {
     subTotal: 0,
     totalPrice: 0,
@@ -42,6 +63,18 @@ const cartSlice = createSlice({
       state.total.taxAmount = Number(action.payload.taxAmount);
       state.total.totalPrice = Number(action.payload.totalPrice);
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCartItems.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchCartItems.fulfilled, (state, action) => {
+        ((state.status = "succeeded"), (state.items = action.payload));
+      })
+      .addCase(fetchCartItems.rejected, (state, action) => {
+        ((state.status = "failed"), (state.error = action.payload));
+      });
   },
 });
 export const { addToCart, removeFromCart, updateTotal, clearItem, clearCart } =
