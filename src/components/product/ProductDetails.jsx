@@ -15,7 +15,6 @@ const ProductDetails = ({ product }) => {
   const userDetails = useSelector((state) => state.user.userDetails);
   const handleAddToCart = async () => {
     const response = await addToCartDb(userDetails, product);
-    console.log(response);
     dispatch(addToCart(product));
   };
   const {

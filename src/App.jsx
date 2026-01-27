@@ -15,7 +15,21 @@ import NotFound from "./pages/NotFoundPage";
 import Signup from "./components/authentication/Signup";
 import Login from "./components/authentication/Login";
 import useAuth from "./hook/AuthStatus";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSavedItems } from "./store/wishlistSlice";
+import { fetchCartItems } from "./store/cartSlice";
 function App() {
+  const user = useSelector((state) => state.user.userDetails);
+  console.log(user);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchCartItems(user));
+      dispatch(fetchSavedItems(user));
+    }
+  }, [user]);
   return (
     <>
       {useAuth()}

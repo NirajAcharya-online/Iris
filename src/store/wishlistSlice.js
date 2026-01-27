@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { collection, getDocs } from "firebase/firestore";
 import { database } from "../firebase/firebaseSetup";
-const fetchSavedItems = createAsyncThunk(
+export const fetchSavedItems = createAsyncThunk(
   "saved/fetchSavedItems",
   async (user, thunkApi) => {
     try {
@@ -33,6 +33,16 @@ const savedSlice = createSlice({
   name: "saved",
   initialState,
   reducers: {
+    toogleSavedLocal(state, action) {
+      const exist = state.items.find((i) => i.id === action.payload.id);
+      if (exist) {
+        state.items = state.items.filter(
+          (item) => item.id !== action.payload.id,
+        );
+      } else {
+        state.items.push(action.payload);
+      }
+    },
     clearSaved(state) {
       state.items = [];
     },
@@ -53,5 +63,5 @@ const savedSlice = createSlice({
   },
 });
 
-export const { clearSaved } = savedSlice.actions;
+export const { clearSaved, toogleSavedLocal } = savedSlice.actions;
 export default savedSlice.reducer;

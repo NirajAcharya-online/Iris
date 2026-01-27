@@ -4,18 +4,20 @@ import "@smastrom/react-rating/style.css";
 import { Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleSaved } from "../../firebase/firebaseDB";
+import { toogleSavedLocal } from "../../store/wishlistSlice";
 
 const ProductCard = ({ product }) => {
   const wishlist = useSelector((state) => state.wishlist.items);
   const isWishlisted = wishlist.some((i) => i.id === product.id);
+  const dispatch = useDispatch();
   const userDetails = useSelector((state) => state.user.userDetails);
   const navigate = useNavigate();
   const handleWishlist = async (e) => {
-    const response = await toggleSaved(userDetails, product);
-    console.log(response);
     e.stopPropagation();
+    const response = await toggleSaved(userDetails, product);
+    dispatch(toogleSavedLocal(product));
   };
   const {
     id,
