@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from "react";
-import { products } from "../data/products";
-import ProductCard from "../components/product/ProductCard";
-import FilterPanel from "../components/ui/FilterPanel";
-import Button from "../components/ui/Button";
+import { products } from "../../data/products";
+import ProductCard from "../../components/product/ProductCard";
+import FilterPanel from "../../components/ui/FilterPanel";
+import Button from "../../components/ui/Button";
 import { useSearchParams } from "react-router-dom";
-import SearchBar from "../components/ui/SearchBar";
+import SearchBar from "../../components/ui/SearchBar";
 
 const ITEMS_PER_PAGE = 8;
 

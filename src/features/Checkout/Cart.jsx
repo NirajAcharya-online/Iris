@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "../components/ui/Button";
-import ShippingSelector from "../components/ui/ShippingSelector";
+import Button from "../../components/ui/Button";
+import ShippingSelector from "../../components/ui/ShippingSelector";
 import {
   addToCart,
   clearItem,
   fetchCartItems,
   removeFromCart,
   updateTotal,
-} from "../store/cartSlice";
+} from "../../store/cartSlice";
 import { useNavigate } from "react-router-dom";
 import {
   addToCartDb,
   clearItemFromCartDb,
   removeFromCartDb,
-} from "../firebase/firebaseDB";
+} from "../../firebase/firebaseDB";
 
 function Cart() {
   const { status, error, items } = useSelector((state) => state.cart);

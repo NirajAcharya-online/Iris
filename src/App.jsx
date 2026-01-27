@@ -1,12 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
 import Home from "./pages/Home";
-import Shop from "./pages/Shop";
 import ProductDetails from "./pages/ProductDetailsPage";
 import Profile from "./pages/Profile";
-import Checkout from "./pages/Checkout";
 import TryOn from "./pages/TryOn";
-import Cart from "./pages/Cart";
 import Wishlist from "./pages/Wishlist";
 import ProtectedCheckout from "./features/Protector/ProtectedCheckout";
 import Success from "./pages/Sucess";
@@ -19,10 +16,12 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSavedItems } from "./store/wishlistSlice";
 import { fetchCartItems } from "./store/cartSlice";
+import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import ShopPage from "./pages/ShopPage";
+import OrderPage from "./pages/OrderPage";
 function App() {
   const user = useSelector((state) => state.user.userDetails);
-  console.log(user);
-
   const dispatch = useDispatch();
   useEffect(() => {
     if (user) {
@@ -36,7 +35,7 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Shop />} />
+          <Route path="/products" element={<ShopPage />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/profile" element={<Profile />} />
@@ -44,7 +43,7 @@ function App() {
             path="/checkout"
             element={
               <ProtectedCheckout>
-                <Checkout />
+                <CheckoutPage />/
               </ProtectedCheckout>
             }
           />
@@ -57,9 +56,8 @@ function App() {
             }
           />
           <Route path="/product/:id/tryon" element={<TryOn />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/orders" element={<OrderPage />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
