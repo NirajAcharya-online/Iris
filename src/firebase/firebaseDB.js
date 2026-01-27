@@ -1,13 +1,4 @@
-import {
-  doc,
-  setDoc,
-  serverTimestamp,
-  getDocs,
-  collection,
-  getDoc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { doc, setDoc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { database } from "./firebaseSetup";
 
 async function createUserDocument(user, extraData) {
@@ -53,6 +44,40 @@ async function addToCartDb(user, product) {
     return { success: true };
   } catch (error) {
     console.error("Cart Error:", error);
+    return { error: true, message: error.message };
+  }
+}
+async function placeOrderDb(user, orderDetails) {
+  // orderDetails should include: items (array), totalAmount, paymentMethod, shippingAddress, etc.
+  if (!user?.uid || !orderDetails?.items?.length) {
+    return { error: true, message: "Missing User ID or Order Items" };
+  }
+
+  try {
+    const orderId = `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    const orderRef = doc(
+      database,
+      "users",
+      String(user.uid),
+      "orders",
+      orderId,
+    );
+
+    const finalOrder = {
+      orderId: orderId,
+      items: orderDetails.cartItems,
+      summary: orderDetails.total,
+      shippingInfo: orderDetails.shippingInfo,
+      status: "Processing",
+      createdAt: serverTimestamp(),
+      paymentMethod: orderDetails.paymentMethod,
+    };
+
+    await setDoc(orderRef, finalOrder);
+
+    return { success: true, orderId: orderId };
+  } catch (error) {
+    console.error("Order Storage Error:", error);
     return { error: true, message: error.message };
   }
 }
@@ -142,4 +167,5 @@ export {
   toggleSaved,
   removeFromCartDb,
   clearItemFromCartDb,
+  placeOrderDb,
 };

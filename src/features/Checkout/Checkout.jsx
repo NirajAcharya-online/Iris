@@ -3,9 +3,11 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CheckoutCard from "../../components/ui/CheckoutCard";
+import { placeOrderDb } from "../../firebase/firebaseDB";
 
 function Checkout() {
   const total = useSelector((state) => state.cart.total);
+  const user = useSelector((state) => state.user.userDetails);
   const cartItems = useSelector((state) => state.cart.items);
   const navigate = useNavigate();
 
@@ -23,8 +25,13 @@ function Checkout() {
     if (!cartItems.length) navigate("/cart");
   }, [cartItems, navigate]);
 
-  const onSubmit = (data) => {
-    console.log("Secure Form Data:", data);
+  const onSubmit = async (data) => {
+    await placeOrderDb(user, {
+      shippingInfo: data,
+      total,
+      cartItems,
+      paymentMethod: data.payment,
+    });
     navigate("/success", { state: { fromCheckout: true } });
   };
 

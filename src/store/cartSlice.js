@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { database } from "../firebase/firebaseSetup";
-import { collection, doc, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 export const fetchCartItems = createAsyncThunk(
   "data/cartItems",
   async (user, thunkApi) => {
