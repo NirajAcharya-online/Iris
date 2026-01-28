@@ -1,16 +1,18 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CheckoutCard from "../../components/ui/CheckoutCard";
-import { placeOrderDb } from "../../firebase/firebaseDB";
+import { clearEntireCartDb, placeOrderDb } from "../../firebase/firebaseDB";
+import { clearCart } from "../../store/cartSlice";
 
 function Checkout() {
   const total = useSelector((state) => state.cart.total);
   const user = useSelector((state) => state.user.userDetails);
   const cartItems = useSelector((state) => state.cart.items);
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -26,13 +28,25 @@ function Checkout() {
   }, [cartItems, navigate]);
 
   const onSubmit = async (data) => {
-    await placeOrderDb(user, {
-      shippingInfo: data,
-      total,
-      cartItems,
+
+    const orderDetails = {
+      items: cartItems,
+      total: total,
+      data: data,
       paymentMethod: data.payment,
-    });
-    navigate("/success", { state: { fromCheckout: true } });
+    };
+    const orderRef = await placeOrderDb(user, orderDetails);
+    if (orderRef.success) {
+      dispatch(clearCart());
+      const clearingcart = await clearEntireCartDb(user);
+      if (clearingcart.success) {
+        navigate("/success", { state: { fromCheckout: true } });
+      } else {
+        alert(clearCart.message);
+      }
+    } else {
+      console.log(orderRef.error.message);
+    }
   };
 
   const inputStyle =

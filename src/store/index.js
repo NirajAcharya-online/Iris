@@ -3,12 +3,14 @@ import cartReducer from "./cartSlice";
 import wishlistReducer from "./wishlistSlice";
 import userReducer from "./userSlice";
 import cardReducer from "./cardShowSlice";
+import orderReducer from "./orderSlice";
 const store = configureStore({
   reducer: {
     cart: cartReducer,
     wishlist: wishlistReducer,
     user: userReducer,
     cardStatus: cardReducer,
+    order: orderReducer,
   },
 });
 

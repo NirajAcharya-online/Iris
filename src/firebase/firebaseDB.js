@@ -1,4 +1,14 @@
-import { doc, setDoc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  deleteDoc,
+  collection,
+  getDocs,
+  writeBatch,
+  serverTimestamp,
+} from "firebase/firestore";
 import { database } from "./firebaseSetup";
 
 async function createUserDocument(user, extraData) {
@@ -17,7 +27,6 @@ async function createUserDocument(user, extraData) {
 async function addToCartDb(user, product) {
   if (!user?.uid || !product?.id)
     return { error: true, message: "Missing User or Product ID" };
-
   try {
     const cartRef = doc(
       database,
@@ -48,7 +57,6 @@ async function addToCartDb(user, product) {
   }
 }
 async function placeOrderDb(user, orderDetails) {
-  // orderDetails should include: items (array), totalAmount, paymentMethod, shippingAddress, etc.
   if (!user?.uid || !orderDetails?.items?.length) {
     return { error: true, message: "Missing User ID or Order Items" };
   }
@@ -65,9 +73,9 @@ async function placeOrderDb(user, orderDetails) {
 
     const finalOrder = {
       orderId: orderId,
-      items: orderDetails.cartItems,
+      items: orderDetails.items,
       summary: orderDetails.total,
-      shippingInfo: orderDetails.shippingInfo,
+      shippingInfo: orderDetails.data,
       status: "Processing",
       createdAt: serverTimestamp(),
       paymentMethod: orderDetails.paymentMethod,
@@ -78,7 +86,7 @@ async function placeOrderDb(user, orderDetails) {
     return { success: true, orderId: orderId };
   } catch (error) {
     console.error("Order Storage Error:", error);
-    return { error: true, message: error.message };
+    return { error: true, message: error };
   }
 }
 async function removeFromCartDb(user, product) {
@@ -133,6 +141,32 @@ async function clearItemFromCartDb(user, product) {
     return { error: true, message: error.message };
   }
 }
+async function clearEntireCartDb(user) {
+  if (!user?.uid) return { error: true, message: "Missing User ID" };
+
+  try {
+    const cartRef = collection(database, "users", String(user.uid), "cart");
+
+    const snapshot = await getDocs(cartRef);
+
+    if (snapshot.empty) {
+      return { success: true, message: "Cart is already empty" };
+    }
+
+    const batch = writeBatch(database);
+
+    snapshot.docs.forEach((item) => {
+      batch.delete(item.ref);
+    });
+
+    await batch.commit();
+
+    return { success: true };
+  } catch (error) {
+    console.error("Clear cart error:", error);
+    return { error: true, message: error.message };
+  }
+}
 async function toggleSaved(user, product) {
   if (!user?.uid || !product?.id)
     return { error: true, message: "Missing User or Product ID" };
@@ -168,4 +202,5 @@ export {
   removeFromCartDb,
   clearItemFromCartDb,
   placeOrderDb,
+  clearEntireCartDb,
 };

@@ -56,6 +56,12 @@ const cartSlice = createSlice({
     },
     clearCart(state, action) {
       state.items = [];
+      state.total = {
+        subTotal: 0,
+        totalPrice: 0,
+        taxAmount: 0,
+        shippingPrice: 0,
+      };
     },
     updateTotal(state, action) {
       state.total.shippingPrice = Number(action.payload.shippingPrice);

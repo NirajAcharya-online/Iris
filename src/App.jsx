@@ -20,6 +20,7 @@ import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import ShopPage from "./pages/ShopPage";
 import OrderPage from "./pages/OrderPage";
+import { fetchOrders } from "./store/orderSlice";
 function App() {
   const user = useSelector((state) => state.user.userDetails);
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ function App() {
     if (user) {
       dispatch(fetchCartItems(user));
       dispatch(fetchSavedItems(user));
+      dispatch(fetchOrders(user));
     }
   }, [user]);
   return (
