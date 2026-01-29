@@ -1,16 +1,22 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Button from "../../components/ui/Button";
+import { useNavigate } from "react-router-dom";
 
 function Order() {
+  const navigate = useNavigate();
   const { status, orderList, error } = useSelector((state) => state.order);
-  console.log(orderList);
 
   if (status === "loading")
-    return <div className="text-center py-20">Loading your orders...</div>;
+    return (
+      <div className="text-center py-20 font-sans">Loading your orders...</div>
+    );
+
   if (error)
     return (
-      <div className="text-center py-20 text-red-500 font-bold">{error}</div>
+      <div className="text-center py-20 text-red-500 font-bold font-sans">
+        {error}
+      </div>
     );
 
   return (
@@ -48,23 +54,26 @@ function Order() {
                       Total Amount
                     </p>
                     <p className="mt-1 font-semibold text-gray-900">
-                      ${order.total?.toFixed(2)}
+                      ${order.summary?.totalPrice?.toFixed(2)}
                     </p>
                   </div>
                   <div className="hidden sm:block">
                     <p className="text-gray-500 uppercase text-[11px] font-bold tracking-wider">
-                      Ship To 
+                      Ship To
                     </p>
                     <p className="mt-1 text-blue-600 font-medium cursor-pointer hover:underline">
-                      Customer
+                      {order.shippingInfo?.firstName}{" "}
+                      {order.shippingInfo?.lastName}
                     </p>
                   </div>
                   <div className="text-right flex flex-col items-end">
                     <p className="text-gray-500 uppercase text-[11px] font-bold tracking-wider">
-                      Order #
+                      Status
                     </p>
-                    <p className="mt-1 font-medium text-gray-900">
-                      {order.id.slice(-8).toUpperCase()}
+                    <p
+                      className={`mt-1 font-bold ${order.status === "Processing" ? "text-orange-500" : "text-green-600"}`}
+                    >
+                      {order.status}
                     </p>
                   </div>
                 </div>
@@ -92,27 +101,26 @@ function Order() {
                             <p className="text-sm text-gray-500 mt-1">
                               Quantity: {item.qty}
                             </p>
+                            <p className="text-xs text-gray-400 mt-1 uppercase">
+                              Category: {item.category}
+                            </p>
                           </div>
                           <p className="font-bold text-gray-900">
                             ${(item.price * item.qty).toFixed(2)}
                           </p>
                         </div>
-
-                        <div className="mt-4 flex flex-wrap gap-3">
-                          <Button
-                            variant="none"
-                            size="none"
-                            className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-indigo-700 shadow-sm transition-all"
-                          >
-                            Buy it again
-                          </Button>
-                          <button className="bg-white text-gray-700 border border-gray-300 px-4 py-2 rounded-lg text-xs font-semibold hover:bg-gray-50 transition-all">
-                            View Product
-                          </button>
-                        </div>
                       </div>
                     </div>
                   ))}
+                </div>
+
+                <div className="px-6 py-3 bg-gray-50 border-t border-gray-100 flex justify-between items-center">
+                  <span className="text-xs text-gray-400">
+                    Order ID: {order.orderId}
+                  </span>
+                  <span className="text-xs font-medium text-gray-600">
+                    Method: {order.paymentMethod?.toUpperCase()}
+                  </span>
                 </div>
               </div>
             ))
@@ -124,8 +132,7 @@ function Order() {
                 When you shop, your orders will appear here for easy tracking.
               </p>
               <Button
-                variant="none"
-                size="none"
+                onClick={() => navigate("/shop")}
                 className="mt-6 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-indigo-600 hover:bg-indigo-700"
               >
                 Go Shopping
