@@ -5,7 +5,7 @@ import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../ui/Button";
 import { MdArrowForwardIos } from "react-icons/md";
-import { toogleLogin } from "../../store/cardShowSlice";
+import { toogleLogin } from "../../store/cardStatus";
 import Logout from "../authentication/Logout";
 
 function Header({ onMenu }) {

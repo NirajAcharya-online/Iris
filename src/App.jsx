@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetailsPage";
-import Profile from "./pages/Profile";
+import Profile from "./components/Profile/Profile";
 import TryOn from "./pages/TryOn";
 import Wishlist from "./pages/Wishlist";
 import ProtectedCheckout from "./features/Protector/ProtectedCheckout";
@@ -21,6 +21,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import ShopPage from "./pages/ShopPage";
 import OrderPage from "./pages/OrderPage";
 import { fetchOrders } from "./store/orderSlice";
+import ProtectedUser from "./features/Protector/ProtectUser";
 function App() {
   const user = useSelector((state) => state.user.userDetails);
   const dispatch = useDispatch();
@@ -59,7 +60,14 @@ function App() {
           />
           <Route path="/product/:id/tryon" element={<TryOn />} />
           <Route path="/cart" element={<CartPage />} />
-          <Route path="/orders" element={<OrderPage />} />
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <ProtectedUser>
+                <OrderPage />
+              </ProtectedUser>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

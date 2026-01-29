@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import CheckoutCard from "../../components/ui/CheckoutCard";
+import CheckoutCard from "../ui/CheckoutCard";
 import { clearEntireCartDb, placeOrderDb } from "../../firebase/firebaseDB";
 import { clearCart } from "../../store/cartSlice";
 

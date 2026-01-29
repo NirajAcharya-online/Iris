@@ -1,14 +1,12 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { User, Mail, Edit3, X, Save } from "lucide-react";
+import { useSelector } from "react-redux";
 
 function AccountTab() {
   const [isEditing, setIsEditing] = useState(false);
-
-  const userData = {
-    name: "Niraj Acharya",
-    email: "one@one.com",
-  };
+  const userData = useSelector((state) => state.user.userDetails);
+  console.log(userData);
 
   const {
     register,
@@ -44,11 +42,11 @@ function AccountTab() {
     <div className="max-w-2xl">
       <div className="flex flex-col sm:flex-row items-center gap-6 mb-10 pb-8 border-b border-gray-100">
         <div className="w-20 h-20 rounded-2xl bg-indigo-600 flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-indigo-200 ring-4 ring-white">
-          {getInitials(userData.name)}
+          {getInitials(userData.username)}
         </div>
 
         <div className="text-center sm:text-left flex-1">
-          <h3 className="text-xl font-bold text-gray-900">{userData.name}</h3>
+          <h3 className="text-xl font-bold text-gray-900">{userData.username}</h3>
           <p className="text-sm text-gray-500">{userData.email}</p>
         </div>
 

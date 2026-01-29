@@ -6,9 +6,10 @@ import {
   ShieldCheck,
   ChevronRight,
 } from "lucide-react";
-import AccountTab from "../components/profile/AccountTab";
-import SecurityTab from "../components/profile/SecurityTab";
-import OrdersTab from "../components/Profile/OrderTab";
+import AccountTab from "./AccountTab";
+import SecurityTab from "./SecurityTab";
+import OrdersTab from "./OrderTab";
+import Button from "../ui/Button";
 
 function Profile() {
   const [active, setActive] = useState("account");
@@ -16,7 +17,6 @@ function Profile() {
   const tabs = [
     { id: "account", label: "Account Details", icon: <UserCircle size={20} /> },
     { id: "orders", label: "Order History", icon: <Package size={20} /> },
-    { id: "saved", label: "Saved Items", icon: <Heart size={20} /> },
     { id: "security", label: "Security", icon: <ShieldCheck size={20} /> },
   ];
 
@@ -36,7 +36,9 @@ function Profile() {
           <aside className="w-full md:w-64 flex-shrink-0">
             <nav className="space-y-1">
               {tabs.map((tab) => (
-                <button
+                <Button
+                  variant="none"
+                  size="none"
                   key={tab.id}
                   onClick={() => setActive(tab.id)}
                   className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 group ${
@@ -54,7 +56,7 @@ function Profile() {
                     <span className="text-sm">{tab.label}</span>
                   </div>
                   {active === tab.id && <ChevronRight size={16} />}
-                </button>
+                </Button>
               ))}
             </nav>
           </aside>

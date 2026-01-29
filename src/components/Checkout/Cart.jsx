@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Button from "../../components/ui/Button";
-import ShippingSelector from "../../components/ui/ShippingSelector";
+import Button from "../ui/Button";
+import ShippingSelector from "../ui/ShippingSelector";
 import {
   addToCart,
   clearItem,

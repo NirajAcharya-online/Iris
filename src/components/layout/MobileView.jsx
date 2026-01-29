@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Button from "../ui/Button";
 import { MdArrowForwardIos } from "react-icons/md";
-import { toogleLogin } from "../../store/cardShowSlice";
+import { toogleLogin } from "../../store/cardStatus";
 import { useDispatch } from "react-redux";
 import Logout from "../authentication/Logout";
 

@@ -6,7 +6,7 @@ import Button from "../ui/Button";
 function OrdersTab() {
   const navigate = useNavigate();
   const { status, orderList, error } = useSelector((state) => state.order);
-
+  console.log(orderList);
   if (status === "loading")
     return (
       <div className="p-8 text-center text-gray-500">Loading orders...</div>
@@ -111,12 +111,14 @@ function OrdersTab() {
                   ${order.summary?.totalPrice?.toFixed(2)}
                 </p>
               </div>
-              <button
-                onClick={() => navigate(`/account/orders/${order.id}`)}
+              <Button
+                variant="none"
+                size="none"
+                onClick={() => navigate(`/profile/orders/${order.id}`)}
                 className="px-4 py-2 text-sm font-semibold text-indigo-600 bg-indigo-50 rounded-lg hover:bg-indigo-600 hover:text-white transition-colors"
               >
                 View Details
-              </button>
+              </Button>
             </div>
           </div>
         </div>

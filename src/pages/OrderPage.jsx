@@ -1,5 +1,5 @@
 import React from "react";
-import Order from "../features/Checkout/Order";
+import Order from "../components/Profile/Order";
 
 function OrderPage() {
   return <Order />;

@@ -4,7 +4,7 @@ import { IoClose } from "react-icons/io5";
 import Button from "../ui/Button";
 import { createAccount } from "../../firebase/firebaseAuth";
 import { useDispatch, useSelector } from "react-redux";
-import { toogleLogin, toogleSignup } from "../../store/cardShowSlice";
+import { toogleLogin, toogleSignup } from "../../store/cardStatus";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;

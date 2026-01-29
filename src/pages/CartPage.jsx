@@ -1,5 +1,5 @@
 import React from "react";
-import Cart from "../features/Checkout/Cart";
+import Cart from "../components/Checkout/Cart";
 
 function CartPage() {
   return <Cart />;

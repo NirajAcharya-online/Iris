@@ -55,6 +55,7 @@ function SecurityTab() {
       <section className="pt-6 border-t border-gray-100">
         <div className="flex flex-col sm:flex-row gap-3">
           <Button
+            onClick={() => {}}
             variant="none"
             size="none"
             className="flex-1 flex items-center justify-center gap-2 bg-red-50 text-red-600 border border-red-100 px-4 py-3 rounded-xl font-semibold hover:bg-red-100 transition-colors text-sm"
