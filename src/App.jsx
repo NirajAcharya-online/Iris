@@ -9,8 +9,6 @@ import ProtectedCheckout from "./features/Protector/ProtectedCheckout";
 import Success from "./pages/Sucess";
 import ProtectedSuccess from "./features/Protector/ProtectSucess";
 import NotFound from "./pages/NotFoundPage";
-import Signup from "./components/authentication/Signup";
-import Login from "./components/authentication/Login";
 import useAuth from "./hook/AuthStatus";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +19,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import ShopPage from "./pages/ShopPage";
 import OrderPage from "./pages/OrderPage";
 import { fetchOrders } from "./store/orderSlice";
-import ProtectedUser from "./features/Protector/ProtectUser";
+import ProtectedUser from "./features/Protector/ProtectedUser";
 function App() {
   const user = useSelector((state) => state.user.userDetails);
   const dispatch = useDispatch();
@@ -41,7 +39,14 @@ function App() {
           <Route path="/products" element={<ShopPage />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedUser>
+                <Profile />
+              </ProtectedUser>
+            }
+          />
           <Route
             path="/checkout"
             element={

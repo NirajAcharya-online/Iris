@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { User, Mail, Edit3, X, Save } from "lucide-react";
 import { useSelector } from "react-redux";
+import Button from "../ui/Button";
 
 function AccountTab() {
   const [isEditing, setIsEditing] = useState(false);
@@ -29,7 +30,6 @@ function AccountTab() {
   };
 
   const onSubmit = (data) => {
-    console.log("Saving to Redux/API:", data);
     setIsEditing(false);
   };
 
@@ -46,25 +46,29 @@ function AccountTab() {
         </div>
 
         <div className="text-center sm:text-left flex-1">
-          <h3 className="text-xl font-bold text-gray-900">{userData.username}</h3>
+          <h3 className="text-xl font-bold text-gray-900">
+            {userData.username}
+          </h3>
           <p className="text-sm text-gray-500">{userData.email}</p>
         </div>
 
         {!isEditing && (
-          <button
+          <Button
+            variant="none"
+            size="none"
             onClick={() => setIsEditing(true)}
             className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-bold hover:bg-gray-50 transition-all active:scale-95"
           >
             <Edit3 size={16} />
             Edit Profile
-          </button>
+          </Button>
         )}
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-gray-400 uppercase tracking-wider ml-1">
-              Full Name
+              UserName
             </label>
             <div className="relative">
               <User

@@ -1,11 +1,14 @@
 import {
   createUserWithEmailAndPassword,
+  reauthenticateWithCredential,
   signInWithEmailAndPassword,
   signOut,
+  updatePassword,
   updateProfile,
 } from "firebase/auth";
 import { firebaseAuth } from "./firebaseSetup";
 import { createUserDocument } from "./firebaseDB";
+import { EmailAuthProvider } from "firebase/auth/web-extension";
 
 async function createAccount(data) {
   try {
@@ -82,4 +85,15 @@ async function logout() {
     return error;
   }
 }
-export { createAccount, loginUser, logout };
+async function updateThePassword(oldPassword, newPassword) {
+  try {
+    const user = firebaseAuth.currentUser;
+    const credential = EmailAuthProvider.credential(user.email, oldPassword);
+    await reauthenticateWithCredential(user, credential);
+    await updatePassword(user, newPassword);
+    return { success: true };
+  } catch (error) {
+    return { error: true, message: error.message };
+  }
+}
+export { createAccount, loginUser, logout, updateThePassword };

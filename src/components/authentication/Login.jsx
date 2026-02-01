@@ -5,7 +5,6 @@ import Button from "../ui/Button";
 import { loginUser } from "../../firebase/firebaseAuth";
 import { useDispatch } from "react-redux";
 import { toogleLogin, toogleSignup } from "../../store/cardStatus";
-import { useNavigate } from "react-router-dom";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -25,7 +24,7 @@ function Login() {
     if (result.error) {
       setAuthError(result.message);
     } else {
-      dispatch(toogleSignup());
+      dispatch(toogleLogin());
     }
   };
 
