@@ -9,7 +9,7 @@ import {
   writeBatch,
   serverTimestamp,
 } from "firebase/firestore";
-import { database } from "./firebaseSetup";
+import { database, firebaseAuth } from "./firebaseSetup";
 
 async function createUserDocument(user, extraData) {
   try {
@@ -195,6 +195,15 @@ async function toggleSaved(user, product) {
   }
 }
 
+async function deleteUser(user) {
+  try {
+    await deleteDoc(database, "users", String(user.uid));
+    return { success: true };
+  } catch (error) {
+    return { error: true, message: error.message };
+  }
+}
+
 export {
   createUserDocument,
   addToCartDb,
@@ -203,4 +212,5 @@ export {
   clearItemFromCartDb,
   placeOrderDb,
   clearEntireCartDb,
+  deleteUser,
 };

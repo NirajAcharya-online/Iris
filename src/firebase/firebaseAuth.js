@@ -1,5 +1,6 @@
 import {
   createUserWithEmailAndPassword,
+  deleteUser,
   reauthenticateWithCredential,
   signInWithEmailAndPassword,
   signOut,
@@ -96,4 +97,15 @@ async function updateThePassword(oldPassword, newPassword) {
     return { error: true, message: error.message };
   }
 }
-export { createAccount, loginUser, logout, updateThePassword };
+async function deleteUserAuth() {
+  try {
+    const user = firebaseAuth.currentUser;
+    if (user) {
+      await deleteUser(user);
+      return { success: true };
+    }
+  } catch (error) {
+    return { error: true, message: error.message };
+  }
+}
+export { createAccount, loginUser, logout, updateThePassword, deleteUserAuth };

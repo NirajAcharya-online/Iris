@@ -2,9 +2,12 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Lock, Trash2 } from "lucide-react";
 import Button from "../../components/ui/Button";
-import { updateThePassword } from "../../firebase/firebaseAuth";
+import { deleteUserAuth, updateThePassword } from "../../firebase/firebaseAuth";
+import { deleteUser } from "../../firebase/firebaseDB";
+import { useSelector } from "react-redux";
 
 function SecurityTab() {
+  const user = useSelector((state) => state.user.userDetails);
   const {
     register,
     handleSubmit,
@@ -13,12 +16,19 @@ function SecurityTab() {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
-
     const oldPassword = data.currentPassword;
     const newPassword = data.newPassword;
     const respose = await updateThePassword(oldPassword, newPassword);
     console.log(respose);
+  };
+  const deleteAccount = async () => {
+    console.log("entereed");
+    const response = await deleteUserAuth();
+    console.log(response);
+
+    if (response.success) {
+      await deleteUser(user);
+    }
   };
 
   return (
@@ -103,7 +113,9 @@ function SecurityTab() {
 
       <section className="pt-6 border-t border-gray-100">
         <Button
-          onClick={() => {}}
+          onClick={() => {
+            deleteAccount();
+          }}
           variant="none"
           size="none"
           className="w-full sm:w-auto flex items-center justify-center gap-2 bg-red-50 text-red-600 border border-red-100 px-4 py-3 rounded-xl font-semibold hover:bg-red-100 transition-colors text-sm"
