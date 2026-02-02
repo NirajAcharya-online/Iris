@@ -3,10 +3,14 @@ import { Trash2 } from "lucide-react";
 import Button from "../components/ui/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toogleSavedLocal } from "../store/wishlistSlice";
+import { toggleSaved } from "../firebase/firebaseDB";
 
 function Wishlist() {
   const savedItems = useSelector((state) => state.wishlist.items);
+  const user = useSelector((state) => state.user.userDetails);
   const dispatch = useDispatch();
+
   const navigate = useNavigate();
   if (savedItems.length === 0) {
     return (
@@ -64,8 +68,9 @@ function Wishlist() {
                   View
                 </Button>
                 <Button
-                  onClick={() => {
-                    dispatch(toogleWishlist(item));
+                  onClick={async () => {
+                    dispatch(toogleSavedLocal(item));
+                    await toggleSaved(user, item);
                   }}
                   variant="danger"
                   className="cursor-pointer px-3"

@@ -195,7 +195,7 @@ async function toggleSaved(user, product) {
   }
 }
 
-async function deleteUser(user) {
+async function deleteUserDb(user) {
   try {
     await deleteDoc(database, "users", String(user.uid));
     return { success: true };
@@ -212,5 +212,5 @@ export {
   clearItemFromCartDb,
   placeOrderDb,
   clearEntireCartDb,
-  deleteUser,
+  deleteUserDb,
 };

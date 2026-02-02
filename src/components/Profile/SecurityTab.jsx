@@ -4,7 +4,7 @@ import { Lock, Trash2 } from "lucide-react";
 import { useSelector } from "react-redux";
 import Button from "../../components/ui/Button";
 import { deleteUserAuth, updateThePassword } from "../../firebase/firebaseAuth";
-import { deleteUser } from "../../firebase/firebaseDB";
+import { deleteUserDb } from "../../firebase/firebaseDB";
 import PasswordUpdateCard from "../layout/PasswordUpdateCard";
 import AccountDeleteCard from "../layout/AccountDelete";
 
@@ -33,7 +33,7 @@ function SecurityTab() {
 
   const onDeleteSubmit = async (data) => {
     const response = await deleteUserAuth(data.deletePassword);
-    if (response.success) await deleteUser(user);
+    if (response.success) await deleteUserDb(user);
   };
 
   const handleClose = () => {

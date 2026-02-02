@@ -19,7 +19,7 @@ function OrdersTab() {
         <p className="text-gray-500">No orders found.</p>
         <Button
           variant="link"
-          onClick={() => navigate("/shop")}
+          onClick={() => navigate("/products")}
           className="mt-2 text-indigo-600 font-semibold"
         >
           Start Shopping

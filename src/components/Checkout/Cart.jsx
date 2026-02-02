@@ -15,6 +15,7 @@ import {
   clearItemFromCartDb,
   removeFromCartDb,
 } from "../../firebase/firebaseDB";
+import { ArrowRight, ShoppingBag } from "lucide-react";
 
 function Cart() {
   const { status, error, items } = useSelector((state) => state.cart);
@@ -22,6 +23,7 @@ function Cart() {
   const dispatch = useDispatch();
   const naviagte = useNavigate();
   const [shippingPrice, setShippingPrice] = useState(6.95);
+
   useEffect(() => {
     if (status === "idle" && user) {
       dispatch(fetchCartItems(user));
@@ -29,7 +31,6 @@ function Cart() {
   }, [user, dispatch]);
 
   const subTotal = items.reduce((acc, item) => acc + item.price * item.qty, 0);
-
   const taxAmount = Number((subTotal * 0.08).toFixed(2));
   const totalPrice = Number((subTotal + shippingPrice + taxAmount).toFixed(2));
 
@@ -44,6 +45,42 @@ function Cart() {
   if (status === "failed") {
     return <div className="text-red-500 text-center py-10">Error: {error}</div>;
   }
+  if (items.length === 0) {
+    return (
+      <div className="min-h-[70vh] flex flex-col items-center justify-center bg-gray-50 px-4">
+        <div className="bg-white p-10 rounded-3xl shadow-sm text-center max-w-md w-full border border-gray-100">
+          <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6">
+            <ShoppingBag
+              size={48}
+              className="text-indigo-500 animate-bounce-slow"
+              strokeWidth={1.5}
+            />
+          </div>
+
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Your cart is empty
+          </h2>
+          <p className="text-gray-500 mb-8 leading-relaxed">
+            Looks like you haven't added anything to your cart yet. Let's find
+            something special for you!
+          </p>
+
+          <Button
+            onClick={() => naviagte("/")}
+            variant="primary"
+            className="w-full py-4 shadow-lg shadow-indigo-100 flex items-center justify-center gap-2 group transition-all"
+          >
+            Start Shopping
+            <ArrowRight
+              size={18}
+              className="group-hover:translate-x-1 transition-transform"
+            />
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   if (items.length !== 0) {
     return (
       <div className="min-h-full bg-gray-50 py-10">
