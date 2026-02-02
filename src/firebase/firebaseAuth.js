@@ -97,12 +97,16 @@ async function updateThePassword(oldPassword, newPassword) {
     return { error: true, message: error.message };
   }
 }
-async function deleteUserAuth() {
+async function deleteUserAuth(password) {
   try {
     const user = firebaseAuth.currentUser;
     if (user) {
+      const credential = EmailAuthProvider.credential(user.email, password);
+      await reauthenticateWithCredential(user, credential);
       await deleteUser(user);
       return { success: true };
+    } else {
+      return { error: true, message: "User not logged in..!" };
     }
   } catch (error) {
     return { error: true, message: error.message };
