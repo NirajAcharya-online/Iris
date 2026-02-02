@@ -21,6 +21,8 @@ import OrderPage from "./pages/OrderPage";
 import { fetchOrders } from "./store/orderSlice";
 import ProtectedUser from "./features/Protector/ProtectedUser";
 function App() {
+  useAuth();
+
   const user = useSelector((state) => state.user.userDetails);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -29,10 +31,9 @@ function App() {
       dispatch(fetchSavedItems(user));
       dispatch(fetchOrders(user));
     }
-  }, [user]);
+  }, [user, dispatch]);
   return (
     <>
-      {useAuth()}
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />

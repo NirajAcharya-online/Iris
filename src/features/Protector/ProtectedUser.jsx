@@ -1,26 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { toogleLogin } from "../../store/cardStatus";
-import { firebaseAuth } from "../../firebase/firebaseSetup";
-import { onAuthStateChanged } from "firebase/auth";
-import useAuth from "../../hook/AuthStatus";
 
 const ProtectedUser = ({ children }) => {
-  useAuth();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { userDetails, loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   if (loading) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-white">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-600 border-t-transparent"></div>
+      <div className="flex h-screen w-full flex-col items-center justify-center bg-white px-10">
+        <div className="w-full max-w-md">
+          <div className="mb-3 flex justify-between items-center">
+            <span className="text-xs font-bold uppercase tracking-widest text-indigo-600">
+              Authenticating
+            </span>
+            <span className="text-xs text-indigo-400 font-medium">
+              Please wait...
+            </span>
+          </div>
+
+          <div className="h-2 w-full overflow-hidden rounded-full bg-indigo-100">
+            <div className="h-full w-full animate-pulse rounded-full bg-gradient-to-r from-indigo-400 via-indigo-600 to-indigo-400"></div>
+          </div>
+        </div>
       </div>
     );
   }
 
-  if (!user) {
+  if (!userDetails) {
     dispatch(toogleLogin());
     return <Navigate to="/" replace />;
   }
