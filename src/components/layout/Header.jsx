@@ -5,7 +5,7 @@ import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../ui/Button";
 import { MdArrowForwardIos } from "react-icons/md";
-import { toogleLogin } from "../../store/cardStatus";
+import { openLogin } from "../../store/cardStatus";
 import Logout from "../authentication/Logout";
 
 function Header({ onMenu }) {
@@ -43,7 +43,7 @@ function Header({ onMenu }) {
           ) : (
             <Button
               onClick={() => {
-                dispatch(toogleLogin());
+                dispatch(openLogin());
               }}
               variant="outline"
               size="md"

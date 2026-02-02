@@ -4,7 +4,7 @@ import { IoClose } from "react-icons/io5";
 import Button from "../ui/Button";
 import { loginUser } from "../../firebase/firebaseAuth";
 import { useDispatch } from "react-redux";
-import { toogleLogin, toogleSignup } from "../../store/cardStatus";
+import { closeAll, closeLogin, openSignup } from "../../store/cardStatus";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -24,7 +24,7 @@ function Login() {
     if (result.error) {
       setAuthError(result.message);
     } else {
-      dispatch(toogleLogin());
+      dispatch(closeAll());
     }
   };
 
@@ -37,7 +37,7 @@ function Login() {
           variant="none"
           size="none"
           onClick={() => {
-            dispatch(toogleLogin());
+            dispatch(closeLogin());
           }}
           className="absolute top-6 right-6 text-gray-400 hover:text-slate-900 transition-colors p-1"
         >
@@ -117,8 +117,8 @@ function Login() {
             variant="none"
             size="none"
             onClick={() => {
-              dispatch(toogleLogin());
-              dispatch(toogleSignup());
+              dispatch(closeAll());
+              dispatch(openSignup());
             }}
             className="text-blue-600 font-bold hover:underline underline-offset-4"
           >

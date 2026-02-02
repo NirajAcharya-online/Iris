@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import Button from "../ui/Button";
 import { MdArrowForwardIos } from "react-icons/md";
-import { toogleLogin } from "../../store/cardStatus";
+import { openLogin } from "../../store/cardStatus";
 import { useDispatch } from "react-redux";
 import Logout from "../authentication/Logout";
 
@@ -33,7 +33,7 @@ function MobileMenu({ open, onClose, user }) {
           ) : (
             <Button
               onClick={() => {
-                dispatch(toogleLogin());
+                dispatch(openLogin());
               }}
               variant="outline"
               size="md"

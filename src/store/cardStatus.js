@@ -9,21 +9,30 @@ const cardStatusSlice = createSlice({
     },
   },
   reducers: {
-    toogleLogin(state, action) {
-      if (state.cardStatus.showLogin) {
-        state.cardStatus.showLogin = false;
-      } else {
-        state.cardStatus.showLogin = true;
-      }
+    openLogin(state) {
+      state.cardStatus.showLogin = true;
+      state.cardStatus.showSignup = false;
     },
-    toogleSignup(state, action) {
-      if (state.cardStatus.showSignup) {
-        state.cardStatus.showSignup = false;
-      } else {
-        state.cardStatus.showSignup = true;
-      }
+    closeLogin(state) {
+      state.cardStatus.showLogin = false;
+    },
+
+    openSignup(state) {
+      state.cardStatus.showSignup = true;
+      state.cardStatus.showLogin = false;
+    },
+    closeSignup(state) {
+      state.cardStatus.showSignup = false;
+    },
+
+    closeAll(state) {
+      state.cardStatus.showLogin = false;
+      state.cardStatus.showSignup = false;
     },
   },
 });
+
+export const { openLogin, closeLogin, openSignup, closeSignup, closeAll } =
+  cardStatusSlice.actions;
+
 export default cardStatusSlice.reducer;
-export const { toogleLogin, toogleSignup } = cardStatusSlice.actions;

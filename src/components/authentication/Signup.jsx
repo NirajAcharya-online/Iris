@@ -3,8 +3,8 @@ import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import Button from "../ui/Button";
 import { createAccount } from "../../firebase/firebaseAuth";
-import { useDispatch, useSelector } from "react-redux";
-import { toogleLogin, toogleSignup } from "../../store/cardStatus";
+import { useDispatch } from "react-redux";
+import { closeAll, openLogin } from "../../store/cardStatus";
 
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -25,7 +25,7 @@ function Signup() {
     if (result.error) {
       setAuthError(result.message);
     } else {
-      dispatch(toogleSignup());
+      dispatch(closeAll());
     }
   };
 
@@ -38,7 +38,7 @@ function Signup() {
           variant="none"
           size="none"
           onClick={() => {
-            dispatch(toogleSignup());
+            dispatch(closeAll());
           }}
           className="absolute top-6 right-6 text-gray-400 hover:text-slate-900 transition-colors p-1"
         >
@@ -138,8 +138,8 @@ function Signup() {
             size="none"
             type="button"
             onClick={() => {
-              dispatch(toogleSignup());
-              dispatch(toogleLogin());
+              dispatch(closeAll());
+              dispatch(openLogin());
             }}
             className="text-blue-600 font-bold hover:underline underline-offset-4"
           >
