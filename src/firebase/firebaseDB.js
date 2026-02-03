@@ -10,6 +10,8 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { database, firebaseAuth } from "./firebaseSetup";
+import { updateProfile } from "firebase/auth";
+import { useDispatch } from "react-redux";
 
 async function createUserDocument(user, extraData) {
   try {
@@ -204,7 +206,17 @@ async function deleteUserDb(user) {
     return { error: true, message: error.message };
   }
 }
-
+async function updateUserName(newUserName) {
+  try {
+    await updateProfile(firebaseAuth.currentUser, {
+      displayName: newUserName,
+    });
+    await firebaseAuth.currentUser.reload();
+    return { success: true, user: firebaseAuth.currentUser };
+  } catch (error) {
+    return { error: true, message: error.message };
+  }
+}
 export {
   createUserDocument,
   addToCartDb,
@@ -214,4 +226,5 @@ export {
   placeOrderDb,
   clearEntireCartDb,
   deleteUserDb,
+  updateUserName,
 };
