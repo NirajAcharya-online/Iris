@@ -45,7 +45,7 @@ function Checkout() {
         alert(clearCart.message);
       }
     } else {
-      console.log(orderRef.error.message);
+      console.log(orderRef.message);
     }
   };
 

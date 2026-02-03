@@ -5,8 +5,10 @@ import { useSelector } from "react-redux";
 import Button from "../../components/ui/Button";
 import { deleteUserAuth, updateThePassword } from "../../firebase/firebaseAuth";
 import { deleteUserDb } from "../../firebase/firebaseDB";
-import PasswordUpdateCard from "../layout/PasswordUpdateCard";
-import AccountDeleteCard from "../layout/AccountDelete";
+import PasswordUpdateCard from "../ui/PasswordUpdateCard";
+import AccountDeleteCard from "../ui/AccountDeleteCard";
+import notify from "../ui/Notify";
+import Logout from "../authentication/Logout";
 
 function SecurityTab() {
   const user = useSelector((state) => state.user.userDetails);
@@ -26,14 +28,24 @@ function SecurityTab() {
       data.newPassword,
     );
     if (response.success) {
+      notify.success("Password Changed Successfully..!");
       setActiveView(null);
       reset();
+    } else {
+      notify.error("Error", "Unable to Change Password..!");
     }
   };
 
   const onDeleteSubmit = async (data) => {
-    const response = await deleteUserAuth(data.deletePassword);
-    if (response.success) await deleteUserDb(user);
+    const response = await deleteUserDb(user);
+    if (response.success) {
+      const secondResponse = await deleteUserAuth(data.deletePassword);
+      <Logout />;
+      secondResponse.success ? notify.success("SucessFully Deleted..!") : "";
+    } else {
+      console.log(response.message);
+      notify.error("Something went Wrong", `${response.message}`);
+    }
   };
 
   const handleClose = () => {

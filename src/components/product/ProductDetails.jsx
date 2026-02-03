@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../store/cartSlice";
 import Button from "../ui/Button";
 import { addToCartDb } from "../../firebase/firebaseDB";
+import { toast } from "react-toastify";
+import notify from "../ui/Notify";
 
 const ProductDetails = ({ product }) => {
   const navigate = useNavigate();
@@ -14,8 +16,17 @@ const ProductDetails = ({ product }) => {
   const [activeImage, setActiveImage] = useState(0);
   const userDetails = useSelector((state) => state.user.userDetails);
   const handleAddToCart = async () => {
-    const response = await addToCartDb(userDetails, product);
-    dispatch(addToCart(product));
+    if (!userDetails) {
+      notify.warning("Unable Add to Cart", "Please Login");
+    } else {
+      const response = await addToCartDb(userDetails, product);
+      if (response.error) {
+        notify.error("Unable to Add to Cart", response.message);
+      } else {
+        dispatch(addToCart(product));
+        notify.success("Added to Cart");
+      }
+    }
   };
   const {
     id,

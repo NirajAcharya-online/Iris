@@ -66,7 +66,6 @@ function Header({ onMenu }) {
           <Link to={"/cart"} className="cursor-pointer flex ">
             <CiShoppingCart size={24} />
             Cart
-            {cartItems.length}
           </Link>
           <Link to={"/profile"} className="cursor-pointer flex ">
             <CgProfile size={24} />

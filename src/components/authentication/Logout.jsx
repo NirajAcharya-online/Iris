@@ -2,6 +2,8 @@ import { useDispatch } from "react-redux";
 import Button from "../../components/ui/Button";
 import { logout } from "../../firebase/firebaseAuth";
 import { clearUser } from "../../store/userSlice";
+import { clearCart } from "../../store/cartSlice";
+import { clearSaved } from "../../store/wishlistSlice";
 
 function Logout() {
   const dispatch = useDispatch();
@@ -9,6 +11,8 @@ function Logout() {
     try {
       const respose = await logout();
       dispatch(clearUser());
+      dispatch(clearCart());
+      dispatch(clearSaved());
     } catch (error) {
       console.error("Error logging out:", error.message);
     }

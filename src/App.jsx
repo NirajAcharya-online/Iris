@@ -20,6 +20,7 @@ import ShopPage from "./pages/ShopPage";
 import OrderPage from "./pages/OrderPage";
 import { fetchOrders } from "./store/orderSlice";
 import ProtectedUser from "./features/Protector/ProtectedUser";
+import { ToastContainer } from "react-toastify";
 function App() {
   useAuth();
 
@@ -34,6 +35,7 @@ function App() {
   }, [user, dispatch]);
   return (
     <>
+      <ToastContainer />
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
@@ -65,7 +67,14 @@ function App() {
             }
           />
           <Route path="/product/:id/tryon" element={<TryOn />} />
-          <Route path="/cart" element={<CartPage />} />
+          <Route
+            path="/cart"
+            element={
+              <ProtectedUser>
+                <CartPage />
+              </ProtectedUser>
+            }
+          />
           <Route
             path="/profile/orders/:id"
             element={

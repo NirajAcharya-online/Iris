@@ -197,7 +197,8 @@ async function toggleSaved(user, product) {
 
 async function deleteUserDb(user) {
   try {
-    await deleteDoc(database, "users", String(user.uid));
+    const docRef = doc(database, "users", String(user.uid));
+    await deleteDoc(docRef);
     return { success: true };
   } catch (error) {
     return { error: true, message: error.message };
