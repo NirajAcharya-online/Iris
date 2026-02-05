@@ -1,18 +1,16 @@
-import React, { useState, useMemo } from "react";
-import { products } from "../../data/products";
+import React, { useState, useEffect } from "react";
 import ProductCard from "../../components/product/ProductCard";
 import FilterPanel from "../../components/ui/FilterPanel";
 import Button from "../../components/ui/Button";
 import { useSearchParams } from "react-router-dom";
 import SearchBar from "../../components/ui/SearchBar";
-import { addProduct } from "../admin/productsWrite";
+import { useGetProductsQuery } from "../../data/fetchProducts";
 
 const ITEMS_PER_PAGE = 8;
 
 function Shop() {
-  products?.map((product) => {
-    addProduct(product);
-  });
+  const { data: products = [], isLoading } = useGetProductsQuery();
+
   const [openFilter, setOpenFilter] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchItem, setSearchItem] = useState("");
@@ -61,21 +59,46 @@ function Shop() {
   }
 
   if (sort) {
-    if (sort === "low") filteredProducts.sort((a, b) => a.price - b.price);
-    if (sort === "high") filteredProducts.sort((a, b) => b.price - a.price);
-    if (sort === "rating") filteredProducts.sort((a, b) => b.rating - a.rating);
+    if (sort === "low")
+      filteredProducts = [...filteredProducts].sort(
+        (a, b) => a.price - b.price,
+      );
+
+    if (sort === "high")
+      filteredProducts = [...filteredProducts].sort(
+        (a, b) => b.price - a.price,
+      );
+
+    if (sort === "rating")
+      filteredProducts = [...filteredProducts].sort(
+        (a, b) => b.rating - a.rating,
+      );
   }
 
-  useMemo(() => {
+  useEffect(() => {
     setPage(1);
   }, [searchItem, category.join(), price, brand, rating, sort]);
 
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
   const start = (page - 1) * ITEMS_PER_PAGE;
+
   const paginatedProducts = filteredProducts.slice(
     start,
     start + ITEMS_PER_PAGE,
   );
+
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/80 backdrop-blur-sm">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-gray-500 font-medium text-lg animate-pulse">
+            Loading...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-full bg-gray-50">
@@ -88,7 +111,7 @@ function Shop() {
           <h1 className="text-lg font-bold">Shop</h1>
 
           <Button
-            variant={"outline"}
+            variant="outline"
             onClick={() => setOpenFilter(true)}
             className="border px-4 py-2 rounded-lg text-sm"
           >
