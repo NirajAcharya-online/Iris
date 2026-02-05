@@ -10,7 +10,6 @@ import { setUser } from "../../store/userSlice";
 function AccountTab() {
   const [isEditing, setIsEditing] = useState(false);
   const { userDetails, loading } = useSelector((state) => state.user);
-  console.log(userDetails);
   const dispatch = useDispatch();
   const {
     register,

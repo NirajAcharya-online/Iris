@@ -41,7 +41,7 @@ function SecurityTab() {
     if (response.success) {
       const secondResponse = await deleteUserAuth(data.deletePassword);
       <Logout />;
-      secondResponse.success ? notify.success("SucessFully Deleted..!") : "";
+      secondResponse.success && notify.success("SucessFully Deleted..!");
     } else {
       console.log(response.message);
       notify.error("Something went Wrong", `${response.message}`);

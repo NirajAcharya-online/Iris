@@ -5,10 +5,14 @@ import FilterPanel from "../../components/ui/FilterPanel";
 import Button from "../../components/ui/Button";
 import { useSearchParams } from "react-router-dom";
 import SearchBar from "../../components/ui/SearchBar";
+import { addProduct } from "../admin/productsWrite";
 
 const ITEMS_PER_PAGE = 8;
 
 function Shop() {
+  products?.map((product) => {
+    addProduct(product);
+  });
   const [openFilter, setOpenFilter] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchItem, setSearchItem] = useState("");

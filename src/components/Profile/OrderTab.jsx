@@ -6,7 +6,6 @@ import Button from "../ui/Button";
 function OrdersTab() {
   const navigate = useNavigate();
   const { status, orderList, error } = useSelector((state) => state.order);
-  console.log(orderList);
   if (status === "loading")
     return (
       <div className="p-8 text-center text-gray-500">Loading orders...</div>

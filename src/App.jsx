@@ -23,6 +23,7 @@ import ProtectedUser from "./features/Protector/ProtectedUser";
 import { ToastContainer } from "react-toastify";
 function App() {
   useAuth();
+  
 
   const user = useSelector((state) => state.user.userDetails);
   const dispatch = useDispatch();
