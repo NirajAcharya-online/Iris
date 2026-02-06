@@ -1,29 +1,45 @@
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { firebaseAuth } from "../firebase/firebaseSetup";
+import { doc, getDoc } from "firebase/firestore";
+import { firebaseAuth, database } from "../firebase/firebaseSetup";
 import { useDispatch } from "react-redux";
-import { setUser } from "../store/userSlice";
+import { setUser, clearUser } from "../store/userSlice";
 
 function useAuth() {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(firebaseAuth, (currentUser) => {
-      if (currentUser) {
-        dispatch(
-          setUser({
-            uid: currentUser.uid,
-            email: currentUser.email,
-            isVerified: currentUser.emailVerified,
-            createdAt: currentUser.metadata.createdAt,
-            username: currentUser.displayName,
-          }),
-        );
-      } else {
-        dispatch(setUser(null));
-      }
-    });
+    const unsubscribe = onAuthStateChanged(
+      firebaseAuth,
+      async (currentUser) => {
+        if (!currentUser) {
+          dispatch(clearUser());
+          return;
+        }
+
+        try {
+          const userRef = doc(database, "users", currentUser.uid);
+          const snap = await getDoc(userRef);
+
+          const dbUser = snap.exists() ? snap.data() : {};
+          dispatch(
+            setUser({
+              uid: currentUser.uid,
+              email: currentUser.email,
+              username: currentUser.displayName,
+              isVerified: currentUser.emailVerified,
+              createdAt: currentUser.metadata.createdAt,
+              role: dbUser.role,
+            }),
+          );
+        } catch (err) {
+          dispatch(clearUser());
+        }
+      },
+    );
 
     return () => unsubscribe();
-  }, []);
+  }, [dispatch]);
 }
+
 export default useAuth;

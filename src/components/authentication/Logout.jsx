@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import Button from "../../components/ui/Button";
+import Button from "../ui/Button";
 import { logout } from "../../firebase/firebaseAuth";
 import { clearUser } from "../../store/userSlice";
 import { clearCart } from "../../store/cartSlice";

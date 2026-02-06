@@ -21,12 +21,16 @@ import OrderPage from "./pages/OrderPage";
 import { fetchOrders } from "./store/orderSlice";
 import ProtectedUser from "./features/Protector/ProtectedUser";
 import { ToastContainer } from "react-toastify";
+import AdminRoute from "./features/Protector/AdminGuard";
+import AdminLayout from "./features/admin/AdminLayout";
+import ProductsAdmin from "./features/admin/ProductAdmin";
+
 function App() {
   useAuth();
-  
 
   const user = useSelector((state) => state.user.userDetails);
   const dispatch = useDispatch();
+
   useEffect(() => {
     if (user) {
       dispatch(fetchCartItems(user));
@@ -34,15 +38,31 @@ function App() {
       dispatch(fetchOrders(user));
     }
   }, [user, dispatch]);
+
   return (
     <>
       <ToastContainer />
       <Routes>
+        {/* ADMIN ROUTES - Protected by AdminRoute and using AdminLayout */}
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          }
+        >
+          <Route path="products" element={<ProductsAdmin />} />
+          {/* Add more admin sub-routes here as needed */}
+        </Route>
+
+        {/* USER & PUBLIC ROUTES - Using MainLayout */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<ShopPage />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/product/:id" element={<ProductDetails />} />
+
           <Route
             path="/profile"
             element={
@@ -51,14 +71,16 @@ function App() {
               </ProtectedUser>
             }
           />
+
           <Route
             path="/checkout"
             element={
               <ProtectedCheckout>
-                <CheckoutPage />/
+                <CheckoutPage />
               </ProtectedCheckout>
             }
           />
+
           <Route
             path="/success"
             element={
@@ -67,7 +89,9 @@ function App() {
               </ProtectedSuccess>
             }
           />
+
           <Route path="/product/:id/tryon" element={<TryOn />} />
+
           <Route
             path="/cart"
             element={
@@ -76,6 +100,7 @@ function App() {
               </ProtectedUser>
             }
           />
+
           <Route
             path="/profile/orders/:id"
             element={
@@ -84,6 +109,7 @@ function App() {
               </ProtectedUser>
             }
           />
+
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

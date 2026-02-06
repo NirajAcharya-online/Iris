@@ -11,11 +11,12 @@ const userSlice = createSlice({
       state.userDetails = action.payload;
       state.loading = false;
     },
-    clearUser(state, action) {
+    clearUser(state) {
       state.userDetails = null;
       state.loading = false;
     },
   },
 });
+
 export default userSlice.reducer;
 export const { setUser, clearUser } = userSlice.actions;
