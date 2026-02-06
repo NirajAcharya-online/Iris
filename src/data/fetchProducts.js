@@ -5,29 +5,17 @@ import { database } from "../firebase/firebaseSetup";
 export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fakeBaseQuery(),
-  tagTypes: ["Products"],
   endpoints: (builder) => ({
     getProducts: builder.query({
       async queryFn() {
         try {
           const snap = await getDocs(collection(database, "products"));
-
-          const data = snap.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-
+          const data = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
           return { data };
         } catch (error) {
-          return {
-            error: {
-              status: "CUSTOM_ERROR",
-              error: error.message,
-            },
-          };
+          return { error: error.message };
         }
       },
-      providesTags: ["Products"],
     }),
   }),
 });

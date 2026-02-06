@@ -19,4 +19,4 @@ const ShopSkeleton = () => {
     </div>
   );
 };
-export  default ShopSkeleton
+export default ShopSkeleton;
