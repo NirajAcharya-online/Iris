@@ -54,7 +54,6 @@ async function addToCartDb(user, product) {
 
     return { success: true };
   } catch (error) {
-    console.error("Cart Error:", error);
     return { error: true, message: error.message };
   }
 }
@@ -65,15 +64,10 @@ async function placeOrderDb(user, orderDetails) {
 
   try {
     const orderId = `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-    const orderRef = doc(
-      database,
-      "users",
-      String(user.uid),
-      "orders",
-      orderId,
-    );
+    const orderRef = doc(database, "orders", orderId);
 
     const finalOrder = {
+      user: String(user.uid),
       orderId: orderId,
       items: orderDetails.items,
       summary: orderDetails.total,
