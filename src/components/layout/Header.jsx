@@ -7,13 +7,13 @@ import Button from "../ui/Button";
 import { MdArrowForwardIos } from "react-icons/md";
 import { openLogin } from "../../store/cardStatus";
 import Logout from "../authentication/Logout";
+import { useState } from "react";
 
 function Header({ onMenu }) {
   const { userDetails, loading } = useSelector((state) => state.user);
-
-  const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
   if (!loading) {
+    const destination = userDetails.role === "admin" ? "admin" : "profile";
     return (
       <header className="w-full border-b bg-white sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between  ">
@@ -61,7 +61,7 @@ function Header({ onMenu }) {
                 Cart
               </Link>
             )}
-            <Link to={"/profile"} className="cursor-pointer flex">
+            <Link to={`/${destination}`} className="cursor-pointer flex">
               <CgProfile size={24} />
               Profile
             </Link>
@@ -73,7 +73,7 @@ function Header({ onMenu }) {
                 Cart
               </Link>
             )}
-            <Link to={"/profile"} className="cursor-pointer flex ">
+            <Link to={`/${destination}`} className="cursor-pointer flex ">
               <CgProfile size={24} />
               Profile
             </Link>

@@ -68,6 +68,7 @@ async function placeOrderDb(user, orderDetails) {
 
     const finalOrder = {
       user: String(user.uid),
+      customerName: String(user.username),
       orderId: orderId,
       items: orderDetails.items,
       summary: orderDetails.total,

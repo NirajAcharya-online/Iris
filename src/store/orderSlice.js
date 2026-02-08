@@ -7,11 +7,8 @@ export const fetchOrders = createAsyncThunk(
     if (!user?.uid) return thunkApi.rejectWithValue("No User ID provided");
 
     try {
-      // 1. Reference the ROOT "orders" collection
       const ordersRef = collection(database, "orders");
 
-      // 2. Query where the field "user" matches the "user.uid"
-      // Note: Make sure the field in Firestore is named exactly "user"
       const q = query(ordersRef, where("user", "==", user.uid));
 
       const querySnapshot = await getDocs(q);
@@ -21,7 +18,6 @@ export const fetchOrders = createAsyncThunk(
         return {
           ...data,
           id: doc.id,
-          // Using your existing logic for mapping
           createdAt: data.createdAt?.toMillis?.() || Date.now(),
           items:
             data.items?.map((item) => ({
@@ -34,7 +30,7 @@ export const fetchOrders = createAsyncThunk(
 
       return ordersData.sort((a, b) => b.createdAt - a.createdAt);
     } catch (error) {
-      console.error("Error fetching orders:", error);
+      return ("Error fetching orders:", error);
     }
   },
 );

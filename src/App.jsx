@@ -24,6 +24,9 @@ import { ToastContainer } from "react-toastify";
 import AdminRoute from "./features/Protector/AdminGuard";
 import AdminLayout from "./features/admin/AdminLayout";
 import ProductsAdmin from "./features/admin/ProductAdmin";
+import OrdersAdmin from "./features/admin/OrdersAdmin";
+import UsersAdmin from "./features/admin/UserAdmin";
+import AdminDashboard from "./features/admin/Dashboard";
 
 function App() {
   useAuth();
@@ -52,8 +55,10 @@ function App() {
             </AdminRoute>
           }
         >
+          <Route index element={<AdminDashboard />} />
           <Route path="products" element={<ProductsAdmin />} />
-          {/* Add more admin sub-routes here as needed */}
+          <Route path="orders" element={<OrdersAdmin />} />
+          <Route path="users" element={<UsersAdmin />} />
         </Route>
 
         {/* USER & PUBLIC ROUTES - Using MainLayout */}

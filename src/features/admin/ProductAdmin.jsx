@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import {
   useGetAllProductsQuery,
@@ -14,9 +14,9 @@ function ProductsAdmin() {
   const [updateProduct] = useUpdateProductMutation();
   const [deleteProduct] = useDeleteProductMutation();
 
-  const { register, handleSubmit, reset, setValue, watch } = useForm({
+  const { register, handleSubmit, reset, watch } = useForm({
     defaultValues: {
-      title: "",
+      name: "", // Use 'name' consistently to match your table and state
       price: "",
       category: "frame",
       rating: "",
@@ -28,12 +28,35 @@ function ProductsAdmin() {
   const editId = watch("id");
 
   const onSubmit = async (formData) => {
-    if (formData.id) {
-      await updateProduct(formData);
-    } else {
-      await createProduct({ ...formData, price: Number(formData.price) });
+    try {
+      // Prepare data (ensure numbers are numbers)
+      const productData = {
+        ...formData,
+        price: Number(formData.price),
+        stock: Number(formData.stock),
+        rating: Number(formData.rating),
+      };
+
+      if (formData.id) {
+        await updateProduct(productData).unwrap();
+      } else {
+        await createProduct(productData).unwrap();
+      }
+
+      handleCancel(); // Reset form after success
+    } catch (err) {
+      alert("Failed to save product: " + err);
     }
+  };
+
+  const handleEdit = (product) => {
+    reset(product); // Loads all product data (including ID) into form
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleCancel = () => {
     reset({
+      id: undefined, // Clear the ID so we exit edit mode
       name: "",
       price: "",
       category: "frame",
@@ -43,81 +66,90 @@ function ProductsAdmin() {
     });
   };
 
-  const handleEdit = (product) => {
-    reset(product);
-  };
-
-  if (isLoading) return <p className="p-10 text-center">Loading...</p>;
+  if (isLoading) return <p className="p-10 text-center">Loading products...</p>;
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6">Products Manager</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-800">Products Manager</h2>
+        <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+          {data?.length || 0} Products
+        </span>
+      </div>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10 bg-gray-50 p-6 rounded-lg border border-gray-200"
+        className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10 bg-white p-6 rounded-xl shadow-sm border border-gray-200"
       >
-        <input
-          {...register("name", { required: true })}
-          placeholder="Name"
-          className="p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
-        />
-        <input
-          {...register("price", { required: true })}
-          placeholder="Price"
-          type="number"
-          className="p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
-        />
+        <div className="flex flex-col gap-1">
+          <label className="text-xs font-bold text-gray-500 uppercase">
+            Product Name
+          </label>
+          <input
+            {...register("name", { required: true })}
+            placeholder="e.g. Aviator Classic"
+            className="p-2 border rounded outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label className="text-xs font-bold text-gray-500 uppercase">
+            Price ($)
+          </label>
+          <input
+            {...register("price", { required: true })}
+            type="number"
+            step="0.01"
+            placeholder="0.00"
+            className="p-2 border rounded outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <label className="text-xs font-bold text-gray-500 uppercase">
+            Category
+          </label>
+          <select
+            {...register("category")}
+            className="p-2 border rounded bg-white outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="frame">Frame</option>
+            <option value="sunglasses">Sunglasses</option>
+            <option value="sport">Sport</option>
+          </select>
+        </div>
+
         <input
           {...register("image")}
           placeholder="Image URL"
-          className="p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
+          className="p-2 border rounded"
         />
         <input
           {...register("rating")}
-          placeholder="Rating"
-          className="p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
+          type="number"
+          step="0.1"
+          placeholder="Rating (0-5)"
+          className="p-2 border rounded"
         />
         <input
           {...register("stock")}
-          placeholder="Stock"
-          className="p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
+          type="number"
+          placeholder="Stock Quantity"
+          className="p-2 border rounded"
         />
 
-        <select
-          {...register("category")}
-          className="p-2 border rounded bg-white focus:ring-2 focus:ring-blue-500 outline-none"
-        >
-          <option value="frame">Frame</option>
-          <option value="sunglasses">Sunglasses</option>
-          <option value="sport">Sport</option>
-        </select>
-
-        <div className="md:col-span-3 flex gap-2">
+        <div className="md:col-span-3 flex gap-2 mt-2">
           <Button
-            variant="none"
-            size="none"
             type="submit"
-            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+            className="bg-blue-600 text-white px-8 py-2 rounded-lg font-bold"
           >
-            {editId ? "Update Product" : "Create Product"}
+            {editId ? "Update Product" : "Create New Product"}
           </Button>
           {editId && (
             <Button
-              variant="none"
-              size="none"
               type="button"
-              onClick={() =>
-                reset({
-                  title: "",
-                  price: "",
-                  category: "frame",
-                  rating: "",
-                  image: "",
-                  stock: "",
-                })
-              }
-              className="bg-gray-400 text-white px-6 py-2 rounded hover:bg-gray-500"
+              onClick={handleCancel}
+              className="bg-gray-100 text-gray-600 px-8 py-2 rounded-lg"
             >
               Cancel
             </Button>
@@ -125,52 +157,53 @@ function ProductsAdmin() {
         </div>
       </form>
 
-      <div className="overflow-x-auto rounded-lg border border-gray-200">
-        <table className="w-full text-left border-collapse bg-white">
-          <thead className="bg-gray-100">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <table className="w-full text-left border-collapse">
+          <thead className="bg-gray-50">
             <tr>
-              <th className="p-4 font-semibold text-gray-700 border-b">
-                Title
+              <th className="p-4 text-xs font-bold text-gray-500 uppercase">
+                Product
               </th>
-              <th className="p-4 font-semibold text-gray-700 border-b">
+              <th className="p-4 text-xs font-bold text-gray-500 uppercase">
                 Price
               </th>
-              <th className="p-4 font-semibold text-gray-700 border-b">Cat</th>
-              <th className="p-4 font-semibold text-gray-700 border-b">
-                Rating
-              </th>
-              <th className="p-4 font-semibold text-gray-700 border-b">
+              <th className="p-4 text-xs font-bold text-gray-500 uppercase">
                 Stock
               </th>
-              <th className="p-4 font-semibold text-gray-700 border-b text-center">
+              <th className="p-4 text-xs font-bold text-gray-500 uppercase text-center">
                 Actions
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-gray-100">
             {data?.map((p) => (
-              <tr key={p.id} className="hover:bg-gray-50 transition">
-                <td className="p-4 border-b">{p.name}</td>
-                <td className="p-4 border-b">${p.price}</td>
-                <td className="p-4 border-b capitalize text-sm text-gray-600">
-                  {p.category}
+              <tr key={p.id} className="hover:bg-gray-50">
+                <td className="p-4">
+                  <div className="font-medium text-gray-800">{p.name}</div>
+                  <div className="text-xs text-gray-400 capitalize">
+                    {p.category}
+                  </div>
                 </td>
-                <td className="p-4 border-b">{p.rating} ⭐</td>
-                <td className="p-4 border-b">{p.stock}</td>
-                <td className="p-4 border-b text-center space-x-2">
+                <td className="p-4 font-semibold text-green-600">${p.price}</td>
+                <td className="p-4 text-gray-600">{p.stock} units</td>
+                <td className="p-4 text-center space-x-4">
                   <Button
-                    variant="primary"
+                    variant="none"
+                    size="none"
                     onClick={() => handleEdit(p)}
-                    className="text-blue-600 hover:underline font-medium"
+                    className="text-blue-600 hover:text-blue-800 font-bold text-sm"
                   >
-                    Edit
+                    EDIT
                   </Button>
                   <Button
-                    variant="secondary"
-                    onClick={() => deleteProduct(p.id)}
-                    className="text-red-600 hover:underline font-medium"
+                    variant="none"
+                    size="none"
+                    onClick={() =>
+                      window.confirm("Delete?") && deleteProduct(p.id)
+                    }
+                    className="text-red-500 hover:text-red-700 font-bold text-sm"
                   >
-                    Delete
+                    DELETE
                   </Button>
                 </td>
               </tr>
@@ -181,4 +214,5 @@ function ProductsAdmin() {
     </div>
   );
 }
+
 export default ProductsAdmin;
