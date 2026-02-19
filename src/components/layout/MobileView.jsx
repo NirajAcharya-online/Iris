@@ -28,7 +28,7 @@ function MobileMenu({ open, onClose, user }) {
           <Link to="/wishlist" onClick={onClose}>
             Wishlist
           </Link>
-          {user ? (
+          {user.uid !== null ? (
             <Logout />
           ) : (
             <Button

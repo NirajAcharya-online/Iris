@@ -7,7 +7,6 @@ import Button from "../ui/Button";
 import { MdArrowForwardIos } from "react-icons/md";
 import { openLogin } from "../../store/cardStatus";
 import Logout from "../authentication/Logout";
-import { useState } from "react";
 
 function Header({ onMenu }) {
   const { userDetails, loading } = useSelector((state) => state.user);
@@ -40,7 +39,7 @@ function Header({ onMenu }) {
             </NavLink>
           </nav>
           <div className="hidden md:flex md:items-center gap-10 ">
-            {userDetails ? (
+            {userDetails.uid !== null ? (
               <Logout />
             ) : (
               <Button

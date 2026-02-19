@@ -66,7 +66,11 @@ export const adminApi = createApi({
     createProduct: builder.mutation({
       async queryFn(product) {
         try {
-          const ref = await addDoc(collection(database, "products"), product);
+          const { id, ...dataToSave } = product;
+          const ref = await addDoc(
+            collection(database, "products"),
+            dataToSave,
+          );
           return { data: { id: ref.id, ...product } };
         } catch (e) {
           return { error: e.message };
@@ -78,7 +82,7 @@ export const adminApi = createApi({
     updateProduct: builder.mutation({
       async queryFn({ id, ...data }) {
         try {
-          await updateDoc(doc(database, "products", id), data);
+          await updateDoc(doc(database, "products", String(id)), data);
           return { data: { id, ...data } };
         } catch (e) {
           return { error: e.message };

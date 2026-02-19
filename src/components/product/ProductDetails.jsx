@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../store/cartSlice";
 import Button from "../ui/Button";
 import { addToCartDb } from "../../firebase/firebaseDB";
-import { toast } from "react-toastify";
 import notify from "../ui/Notify";
 
 const ProductDetails = ({ product }) => {
@@ -15,6 +14,7 @@ const ProductDetails = ({ product }) => {
   const dispatch = useDispatch();
   const [activeImage, setActiveImage] = useState(0);
   const userDetails = useSelector((state) => state.user.userDetails);
+
   const handleAddToCart = async () => {
     if (!userDetails) {
       notify.warning("Unable Add to Cart", "Please Login");
@@ -23,8 +23,12 @@ const ProductDetails = ({ product }) => {
       if (response.error) {
         notify.error("Unable to Add to Cart", response.message);
       } else {
-        dispatch(addToCart(product));
-        notify.success("Added to Cart");
+        if (userDetails.role === "admin") {
+          notify.error("Admin Cannot Shop.!");
+        } else {
+          dispatch(addToCart(product));
+          notify.success("Added to Cart");
+        }
       }
     }
   };

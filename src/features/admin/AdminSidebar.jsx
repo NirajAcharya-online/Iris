@@ -23,6 +23,9 @@ function AdminSidebar() {
         <NavLink to="/admin/users" className={linkClass}>
           Users
         </NavLink>
+        <NavLink to="/" className={linkClass}>
+          Shop
+        </NavLink>
       </nav>
     </aside>
   );

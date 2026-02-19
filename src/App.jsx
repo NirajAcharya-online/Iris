@@ -30,7 +30,6 @@ import AdminDashboard from "./features/admin/Dashboard";
 
 function App() {
   useAuth();
-
   const user = useSelector((state) => state.user.userDetails);
   const dispatch = useDispatch();
 
