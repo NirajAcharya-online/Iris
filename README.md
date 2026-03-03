@@ -70,8 +70,15 @@ Iris Eyewear is a production-style e-commerce web application built with a focus
 
 ---
 ## Admin Dashboard View 
+<img width="1919" height="949" alt="Screenshot 2026-03-03 220414" src="https://github.com/user-attachments/assets/b7236a29-3f91-41ca-9228-39e148f4024d" />
+<img width="1919" height="951" alt="Screenshot 2026-03-03 220432" src="https://github.com/user-attachments/assets/4e418b02-b5c3-4c36-8b8a-f9d2a16c7875" />
+<img width="1439" height="734" alt="Screenshot 2026-03-03 220444" src="https://github.com/user-attachments/assets/69c2c349-822e-4e4a-ad59-fee8387a1288" />
+<img width="1682" height="932" alt="Screenshot 2026-03-03 220452" src="https://github.com/user-attachments/assets/3d11fbab-1b67-4921-893b-40c6486d0bcb" />
+
 
 ## Future Improvements
+
+
 
 - Product reviews and ratings system
 
