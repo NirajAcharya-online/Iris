@@ -22,6 +22,7 @@ function useAuth() {
           const snap = await getDoc(userRef);
 
           const dbUser = snap.exists() ? snap.data() : {};
+
           dispatch(
             setUser({
               uid: currentUser.uid,
