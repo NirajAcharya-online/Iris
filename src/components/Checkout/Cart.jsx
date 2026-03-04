@@ -16,6 +16,7 @@ import {
   removeFromCartDb,
 } from "../../firebase/firebaseDB";
 import { ArrowRight, ShoppingBag } from "lucide-react";
+import RestrictCart from "../../pages/RestrictCartPage";
 
 function Cart() {
   const { status, error, items } = useSelector((state) => state.cart);
@@ -33,7 +34,9 @@ function Cart() {
   const subTotal = items.reduce((acc, item) => acc + item.price * item.qty, 0);
   const taxAmount = Number((subTotal * 0.08).toFixed(2));
   const totalPrice = Number((subTotal + shippingPrice + taxAmount).toFixed(2));
-
+if(user.uid === null){
+  return <RestrictCart/>
+}
   if (status === "loading") {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -66,7 +69,7 @@ function Cart() {
           </p>
 
           <Button
-            onClick={() => naviagte("/")}
+            onClick={() => naviagte("/products")}
             variant="primary"
             className="w-full py-4 shadow-lg shadow-indigo-100 flex items-center justify-center gap-2 group transition-all"
           >

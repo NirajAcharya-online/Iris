@@ -7,6 +7,7 @@ import Button from "../ui/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSaved } from "../../firebase/firebaseDB";
 import { toogleSavedLocal } from "../../store/wishlistSlice";
+import notify from "../ui/Notify";
 
 const ProductCard = ({ product }) => {
   const wishlist = useSelector((state) => state.wishlist.items);
@@ -15,9 +16,14 @@ const ProductCard = ({ product }) => {
   const userDetails = useSelector((state) => state.user.userDetails);
   const navigate = useNavigate();
   const handleWishlist = async (e) => {
-    e.stopPropagation();
-    const response = await toggleSaved(userDetails, product);
-    dispatch(toogleSavedLocal(product));
+    if (userDetails.uid !== null) {
+      e.stopPropagation();
+      const response = await toggleSaved(userDetails, product);
+      dispatch(toogleSavedLocal(product));
+    } else {
+      e.stopPropagation();
+      notify.error("Please login to wishlist");
+    }
   };
   const {
     id,

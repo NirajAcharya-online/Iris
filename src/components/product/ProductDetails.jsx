@@ -20,7 +20,7 @@ const ProductDetails = ({ product }) => {
   const reviewsList = useSelector((state) => state.review.productReviews);
 
   const handleAddToCart = async () => {
-    if (!userDetails) {
+    if (userDetails.uid === null) {
       notify.warning("Unable Add to Cart", "Please Login");
     } else {
       const response = await addToCartDb(userDetails, product);
