@@ -8,11 +8,11 @@ import {
   getDocs,
   writeBatch,
   serverTimestamp,
+  arrayUnion,
 } from "firebase/firestore";
 import { database, firebaseAuth } from "./firebaseSetup";
 import { updateProfile } from "firebase/auth";
-import { useDispatch } from "react-redux";
-
+import { addReviewToState } from "../store/reviewSlice";
 async function createUserDocument(user, extraData) {
   try {
     await setDoc(doc(database, "users", String(user.uid)), {
@@ -25,7 +25,33 @@ async function createUserDocument(user, extraData) {
     return error;
   }
 }
+async function addReview(productId, reviewData, user) {
+  const reviewRef = doc(database, "reviews", String(productId));
 
+  const newReview = {
+    id: crypto.randomUUID(),
+    userId: user.uid,
+    userName: user.username || "Anonymous",
+    rating: reviewData.rating,
+    comment: reviewData.reviewText,
+    createdAt: new Date().toISOString(),
+  };
+
+  try {
+    await setDoc(
+      reviewRef,
+      {
+        productId: productId,
+        entries: arrayUnion(newReview),
+      },
+      { merge: true },
+    );
+
+    return { success: true, newReview: newReview };
+  } catch (error) {
+    return { error: true, message: error.message };
+  }
+}
 async function addToCartDb(user, product) {
   if (!user?.uid || !product?.id)
     return { error: true, message: "Missing User or Product ID" };
@@ -222,4 +248,5 @@ export {
   clearEntireCartDb,
   deleteUserDb,
   updateUserName,
+  addReview,
 };

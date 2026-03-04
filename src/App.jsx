@@ -45,7 +45,6 @@ function App() {
     <>
       <ToastContainer />
       <Routes>
-        {/* ADMIN ROUTES - Protected by AdminRoute and using AdminLayout */}
         <Route
           path="/admin"
           element={
@@ -60,7 +59,6 @@ function App() {
           <Route path="users" element={<UsersAdmin />} />
         </Route>
 
-        {/* USER & PUBLIC ROUTES - Using MainLayout */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<ShopPage />} />

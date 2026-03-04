@@ -4,8 +4,6 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 export const fetchOrders = createAsyncThunk(
   "data/orders",
   async (user, thunkApi) => {
-    console.log(user.uid);
-
     if (!user?.uid) return;
 
     try {

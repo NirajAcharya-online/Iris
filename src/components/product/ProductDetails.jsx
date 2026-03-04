@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Rating } from "@smastrom/react-rating";
 import "@smastrom/react-rating/style.css";
 import { useNavigate } from "react-router-dom";
@@ -8,12 +8,16 @@ import { addToCart } from "../../store/cartSlice";
 import Button from "../ui/Button";
 import { addToCartDb } from "../../firebase/firebaseDB";
 import notify from "../ui/Notify";
+import AddReview from "./AddReview";
+import ReviewList from "./ReviewList";
+import { fetchProductReviews } from "../../store/reviewSlice";
 
 const ProductDetails = ({ product }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [activeImage, setActiveImage] = useState(0);
   const userDetails = useSelector((state) => state.user.userDetails);
+  const reviewsList = useSelector((state) => state.review.productReviews);
 
   const handleAddToCart = async () => {
     if (!userDetails) {
@@ -46,7 +50,11 @@ const ProductDetails = ({ product }) => {
     stock,
     tryOnAvailable,
   } = product;
-  console.log(id);
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchProductReviews(id));
+    }
+  }, [id, dispatch]);
 
   return (
     <div className="max-w-6xl mx-auto p-4 grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -129,6 +137,10 @@ const ProductDetails = ({ product }) => {
             </Button>
           )}
         </div>
+      </div>
+      <div className="col-span-full mt-10 border-t pt-10">
+        <AddReview productId={id} />
+        <ReviewList reviewsData={reviewsList} />
       </div>
     </div>
   );

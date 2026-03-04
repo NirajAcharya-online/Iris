@@ -4,6 +4,7 @@ import wishlistReducer from "./wishlistSlice";
 import userReducer from "./userSlice";
 import cardReducer from "./cardStatus";
 import orderReducer from "./orderSlice";
+import reviewReducer from "./reviewSlice";
 import { productsApi } from "../data/fetchProducts";
 import { adminApi } from "../features/admin/adminApi";
 
@@ -14,6 +15,7 @@ const store = configureStore({
     user: userReducer,
     cardStatus: cardReducer,
     order: orderReducer,
+    review: reviewReducer,
 
     [productsApi.reducerPath]: productsApi.reducer,
     [adminApi.reducerPath]: adminApi.reducer,
