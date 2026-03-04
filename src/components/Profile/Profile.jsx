@@ -10,8 +10,12 @@ import AccountTab from "./AccountTab";
 import SecurityTab from "./SecurityTab";
 import OrdersTab from "./OrderTab";
 import Button from "../ui/Button";
+import { useSelector } from "react-redux";
+import ProfileRestricted from "../../pages/RestictProfilePage";
 
 function Profile() {
+  const userDetails = useSelector((state) => state.user.userDetails);
+
   const [active, setActive] = useState("account");
 
   const tabs = [
@@ -19,7 +23,9 @@ function Profile() {
     { id: "orders", label: "Order History", icon: <Package size={20} /> },
     { id: "security", label: "Security", icon: <ShieldCheck size={20} /> },
   ];
-
+  if (userDetails.uid === null) {
+    return <ProfileRestricted />;
+  }
   return (
     <div className="min-h-full bg-[#F8F9FB] py-10 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">

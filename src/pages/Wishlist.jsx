@@ -5,13 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toogleSavedLocal } from "../store/wishlistSlice";
 import { toggleSaved } from "../firebase/firebaseDB";
+import WishlistRestricted from "./RestrictWishlistPage";
 
 function Wishlist() {
   const savedItems = useSelector((state) => state.wishlist.items);
   const user = useSelector((state) => state.user.userDetails);
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
+  if (user.uid === null) {
+    return <WishlistRestricted />;
+  }
   if (savedItems.length === 0) {
     return (
       <div className="min-h-full bg-gray-50 px-4 py-6">

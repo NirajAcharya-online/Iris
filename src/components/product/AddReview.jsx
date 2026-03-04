@@ -24,8 +24,7 @@ function AddReview({ productId }) {
   const dispatch = useDispatch();
 
   const onSubmit = async (data) => {
-
-    if (!userDetails) {
+    if (userDetails.uid === null) {
       notify.warning("Login Required", "Please login to post a review");
       return;
     }
