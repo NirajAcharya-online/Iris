@@ -1,15 +1,17 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { openLogin } from "../../store/cardStatus";
 
 const ProtectedUser = ({ children }) => {
   const { userDetails, loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   useEffect(() => {
-    if (!loading && !userDetails) {
+    if (!loading && userDetails.uid === null && userDetails.role !== "admin") {
       dispatch(openLogin());
+    } else if (userDetails.role === "admin") {
+      navigate("/admin");
     }
   }, [loading, userDetails, dispatch]);
 

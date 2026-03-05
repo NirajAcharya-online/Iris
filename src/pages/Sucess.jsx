@@ -10,7 +10,7 @@ function Success() {
     dispatch(clearCart());
   }, [dispatch]);
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-full flex items-center justify-center bg-gray-50 px-4">
       <div className="bg-white p-8 rounded-xl shadow-sm text-center max-w-md w-full">
         <CheckCircle size={64} className="mx-auto text-green-500" />
         <h1 className="text-2xl font-bold mt-4">Order Placed!</h1>

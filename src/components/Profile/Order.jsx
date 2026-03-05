@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 
 const OrderDetailsPage = () => {
   const { id } = useParams();
-
   const { status, orderList } = useSelector((state) => state.order);
   const order = orderList?.find((o) => o.id === id || o.orderId === id);
 
