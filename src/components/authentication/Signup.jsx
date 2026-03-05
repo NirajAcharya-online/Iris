@@ -65,6 +65,7 @@ function Signup() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
           <div className="space-y-1">
             <input
+              autoComplete="username"
               {...register("username", {
                 required: "Username is required",
                 pattern: {
@@ -84,6 +85,7 @@ function Signup() {
 
           <div className="space-y-1">
             <input
+              autoComplete="email"
               {...register("email", {
                 required: "Email is required",
                 pattern: {
@@ -103,6 +105,7 @@ function Signup() {
 
           <div className="space-y-1">
             <input
+              autoComplete="new-password"
               type="password"
               {...register("password", {
                 required: "Password is required",

@@ -31,6 +31,13 @@ function AccountDeleteCard({
       <form onSubmit={handleSubmit(onDelete)} className="space-y-4">
         <div className="space-y-1">
           <input
+            type="text"
+            name="username"
+            autoComplete="username"
+            className="hidden"
+          />
+          <input
+            autoComplete="current-password"
             type="password"
             {...register("deletePassword", {
               required: "Password required for verification",

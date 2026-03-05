@@ -64,6 +64,7 @@ function Login() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-1">
             <input
+              autoComplete="email"
               {...register("email", {
                 required: "Email is required",
                 pattern: {
@@ -84,6 +85,7 @@ function Login() {
           <div className="space-y-1">
             <input
               type="password"
+              autoComplete="current-password"
               {...register("password", {
                 required: "Password is required",
                 pattern: {

@@ -43,7 +43,6 @@ function SecurityTab() {
       <Logout />;
       secondResponse.success && notify.success("SucessFully Deleted..!");
     } else {
-      console.log(response.message);
       notify.error("Something went Wrong", `${response.message}`);
     }
   };

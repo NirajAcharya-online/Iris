@@ -37,6 +37,13 @@ function PasswordUpdateCard({
           Current Password
         </label>
         <input
+          type="text"
+          name="username"
+          autoComplete="username"
+          className="hidden"
+        />
+        <input
+          autoComplete="current-password"
           type="password"
           {...register("currentPassword", {
             required: "Current password is required",
@@ -58,6 +65,7 @@ function PasswordUpdateCard({
           </label>
           <input
             type="password"
+            autoComplete="new-password"
             {...register("newPassword", {
               required: "New password is required",
               pattern: {
@@ -78,6 +86,7 @@ function PasswordUpdateCard({
             Confirm Password
           </label>
           <input
+            autoComplete="new-password"
             type="password"
             {...register("confirmPassword", {
               required: "Please confirm your password",
