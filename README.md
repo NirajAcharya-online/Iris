@@ -6,7 +6,7 @@ Iris Eyewear is a high-performance e-commerce engine built to demonstrate **Prod
 ---
 
 ## 🔗 Project Links
-- **Live Production:** (http://iamniraj.tech/](https://iris-eyeware.vercel.app/)
+- **Live Production:** (https://iris-eyeware.vercel.app/)
 
 ---
 
