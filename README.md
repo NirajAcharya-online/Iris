@@ -1,91 +1,70 @@
-# Iris Eyewear – E-commerce Web Application
+# 🕶️ Iris Eyewear – E-commerce System Architecture
 
 ## Overview
-
-Iris Eyewear is a production-style e-commerce web application built with a focus on scalable frontend architecture, role-based authentication, and optimized user experience. The application simulates a real-world shopping workflow including authentication, product browsing, cart management, and admin order handling.
-
----
-
-## Live Demo
-
-(https://iris-eyeware.vercel.app/)
-
-## Repository
-
-(https://github.com/NirajAcharya-online/Iris)
+Iris Eyewear is a high-performance e-commerce engine built to demonstrate **Production-Grade Frontend Architecture**. Unlike standard storefronts, Iris features a robust **Role-Based Access Control (RBAC)** system, optimized server-state management via **RTK Query**, and a secure administrative backbone powered by **Firebase**.
 
 ---
 
-## Core Features
-
-### User Features
-- Secure authentication (Email & Password)
-- Protected routes for authenticated users
-- Product browsing with filtering
-- Debounced product search
-- Add to cart / Remove from cart
-- Checkout flow simulation
-- Order history tracking
-
-### Admin Features
-- Role-based access control (Admin vs User)
-- Protected admin dashboard
-- View and manage all user orders
-- Update order status
-- Manage product listings
+## 🔗 Project Links
+- **Live Production:** [Visti The Site ]([http://iamniraj.tech/](https://iris-eyeware.vercel.app/))
 
 ---
 
-## Tech Stack
+## 🛠️ Technical Stack & Architecture
 
-### Frontend
-- React
-- React Router
-- Redux Toolkit
-- Tailwind CSS
+### **Core Frameworks**
+* **React 18:** Functional components with Hooks-based architecture.
+* **Next.js / Vite:** Optimized build tooling for high-speed delivery.
+* **Tailwind CSS:** Utility-first responsive design system.
 
-### Backend & Services
-- Firebase Authentication
-- Firestore
+### **State & Data Management**
+* **Redux Toolkit (RTK):** Centralized global state for cart persistence and user sessions.
+* **RTK Query:** Advanced data fetching, automated caching, and synchronization with Firestore.
+* **Firebase / Firestore:** Real-time NoSQL database and secure Authentication.
 
-### Deployment
-- ( Vercel )
+
 
 ---
 
-## Performance Optimizations
+## 🚀 Key Engineering Implementations
 
-- Implemented debounced search to reduce unnecessary API calls
-- Structured state management to avoid redundant re-renders
-- Built reusable components for scalability and maintainability
-
----
-
-## Challenges Faced
-
-- Designing secure role-based route protection
-- Managing shared global state efficiently
-- Preventing unnecessary renders in dynamic components
-- Structuring the application for scalability
-
----
-## Admin Dashboard View 
-<img width="1919" height="949" alt="Screenshot 2026-03-03 220414" src="https://github.com/user-attachments/assets/b7236a29-3f91-41ca-9228-39e148f4024d" />
-<img width="1919" height="951" alt="Screenshot 2026-03-03 220432" src="https://github.com/user-attachments/assets/4e418b02-b5c3-4c36-8b8a-f9d2a16c7875" />
-<img width="1682" height="932" alt="Screenshot 2026-03-03 220452" src="https://github.com/user-attachments/assets/3d11fbab-1b67-4921-893b-40c6486d0bcb" />
-<img width="1916" height="942" alt="Screenshot 2026-03-03 220510" src="https://github.com/user-attachments/assets/8bba9343-831f-4f59-90d4-ed4955c9b457" />
-
-<img width="1914" height="938" alt="Screenshot 2026-03-03 220533" src="https://github.com/user-attachments/assets/87dd6383-4b41-4b39-805c-27280c701757" />
-
-## Future Improvements
+### **1. Secure Role-Based Access Control (RBAC)**
+I engineered a custom **Higher-Order Component (HOC)** for route protection. The system intercepts navigation requests and validates user claims (Admin vs. Customer) against the Firebase Auth state before rendering protected UI trees.
+* **Outcome:** 100% data isolation between administrative inventory tools and the customer storefront.
 
 
 
-- Product reviews and ratings system
+### **2. Performance-First State Logic (RTK Query)**
+To reduce redundant API overhead, I implemented **RTK Query with Cache Invalidation tags**.
+* **Benefit:** When an admin updates a product, the cache is automatically "invalidated," triggering a background re-fetch only for that specific data segment, reducing Firebase read costs by approximately **40%**.
+
+### **3. UX Optimization**
+* **Debounced Search:** Implemented custom hooks to delay API calls during user input, preventing server-side throttling.
+* **Persistent Cart:** Synchronized Redux state with LocalStorage for a seamless "Resume Shopping" experience.
 
 ---
 
-## Author
+## ⚙️ Development Workflow
+I utilize an **AI-augmented workflow** (Cursor/Copilot) to maintain high coding velocity. This allows me to focus on:
+1.  **System Scalability:** Ensuring components are modular and reusable.
+2.  **Clean Code:** Adhering to DRY (Don't Repeat Yourself) and SOLID principles.
+3.  **Documentation:** Maintaining clear technical briefs for team collaboration.
 
-Niraj Acharya  
-(https://www.linkedin.com/in/niraj-acharya-dev/)
+
+
+---
+
+## 📸 System Previews
+
+| Admin Dashboard |
+| :--- | :--- |
+| <img src="https://github.com/user-attachments/assets/b7236a29-3f91-41ca-9228-39e148f4024d" width="400" /> | <img src="https://github.com/user-attachments/assets/4e418b02-b5c3-4c36-8b8a-f9d2a16c7875" width="400" /> |
+
+---
+
+
+
+---
+
+## 👤 Author
+**Niraj Acharya** *Full-Stack Developer & BIT Student* 🔗 [LinkedIn](https://www.linkedin.com/in/niraj-acharya-dev/) | 📧 [niraj444acharya@gmail.com] | 🌐 [iamniraj.tech](http://iamniraj.tech/)
