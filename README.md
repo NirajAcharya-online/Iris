@@ -6,7 +6,7 @@ Iris Eyewear is a high-performance e-commerce engine built to demonstrate **Prod
 ---
 
 ## 🔗 Project Links
-- **Live Production:** [Visti The Site ]([http://iamniraj.tech/](https://iris-eyeware.vercel.app/))
+- **Live Production:** (http://iamniraj.tech/](https://iris-eyeware.vercel.app/)
 
 ---
 
@@ -57,7 +57,6 @@ I utilize an **AI-augmented workflow** (Cursor/Copilot) to maintain high coding 
 ## 📸 System Previews
 
 | Admin Dashboard |
-| :--- | :--- |
 | <img src="https://github.com/user-attachments/assets/b7236a29-3f91-41ca-9228-39e148f4024d" width="400" /> | <img src="https://github.com/user-attachments/assets/4e418b02-b5c3-4c36-8b8a-f9d2a16c7875" width="400" /> |
 
 ---
