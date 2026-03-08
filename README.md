@@ -8,7 +8,7 @@ Iris Eyewear is a production-style e-commerce web application built with a focus
 
 ## Live Demo
 
-(Comming Soon)
+(https://iris-eyeware.vercel.app/)
 
 ## Repository
 
